@@ -51,7 +51,7 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	<h2>Reset</h2>
 	<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
 
-	<form method="POST" action="oracle-template.php">
+	<form method="POST" action="oracle-test.php">
 		<!-- "action" specifies the file or page that will receive the form data for processing. As with this example, it can be this same file. -->
 		<input type="hidden" id="resetTablesRequest" name="resetTablesRequest">
 		<p><input type="submit" value="Reset" name="reset"></p>
@@ -60,7 +60,7 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	<hr />
 
 	<h2>Insert Values into DemoTable</h2>
-	<form method="POST" action="oracle-template.php">
+	<form method="POST" action="oracle-test.php">
 		<input type="hidden" id="insertQueryRequest" name="insertQueryRequest">
 		Number: <input type="text" name="insNo"> <br /><br />
 		Name: <input type="text" name="insName"> <br /><br />
@@ -73,7 +73,7 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	<h2>Update Name in DemoTable</h2>
 	<p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
 
-	<form method="POST" action="oracle-template.php">
+	<form method="POST" action="oracle-test.php">
 		<input type="hidden" id="updateQueryRequest" name="updateQueryRequest">
 		Old Name: <input type="text" name="oldName"> <br /><br />
 		New Name: <input type="text" name="newName"> <br /><br />
@@ -84,7 +84,7 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	<hr />
 
 	<h2>Count the Tuples in DemoTable</h2>
-	<form method="GET" action="oracle-template.php">
+	<form method="GET" action="oracle-test.php">
 		<input type="hidden" id="countTupleRequest" name="countTupleRequest">
 		<input type="submit" name="countTuples"></p>
 	</form>
@@ -92,7 +92,7 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	<hr />
 
 	<h2>Display Tuples in DemoTable</h2>
-	<form method="GET" action="oracle-template.php">
+	<form method="GET" action="oracle-test.php">
 		<input type="hidden" id="displayTuplesRequest" name="displayTuplesRequest">
 		<input type="submit" name="displayTuples"></p>
 	</form>
