@@ -90,6 +90,8 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 	</form>
 
 	<p> hello </p>
+	<p> goodbye </p>
+
 
 	<hr />
 
