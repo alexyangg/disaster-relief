@@ -89,6 +89,8 @@ $show_debug_alert_messages = False; // show which methods are being triggered (s
 		<input type="submit" name="countTuples"></p>
 	</form>
 
+	<p> hello </p>
+
 	<hr />
 
 	<h2>Display Tuples in DemoTable</h2>
