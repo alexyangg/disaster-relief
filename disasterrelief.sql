@@ -14,7 +14,7 @@ DROP TABLE Mission CASCADE CONSTRAINTS;
 DROP TABLE ReliefCenter CASCADE CONSTRAINTS;
 DROP TABLE Disaster CASCADE CONSTRAINTS;
 
--- TODO: make sure to handle these enum values in test data
+-- TODO: make sure to handle these enum values used in test data
 -- Supplies Quality: 'Fair' 'Good' 'Exellent' 'New' 
 -- Volunteer Status: Active, On Standby, Completed
 -- Victim Status: Injured, Missing, Displaced, Homeless
