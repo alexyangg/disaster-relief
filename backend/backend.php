@@ -37,6 +37,13 @@ function handleDisplayRequest()
     printResult($result);
 }
 
+function handleMissionDisplayRequest()
+{
+    global $db_conn;
+    $result = executePlainSQL("SELECT * FROM Mission");
+    printResult($result);
+}
+
 function printResult($result)
 {
     echo "<br>Retrieved data from table Disaster:<br>";
@@ -108,6 +115,8 @@ function handleRequest()
             handleCountRequest();
         } else if (array_key_exists('displayTuples', $_GET)) {
             handleDisplayRequest();
+        } else if (array_key_exists('displayMissionTuples', $_GET)) {
+            handleMissionDisplayRequest();
         }
 
         disconnectFromDB();

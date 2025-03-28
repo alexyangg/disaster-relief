@@ -54,6 +54,14 @@
 		<input type="hidden" id="displayTuplesRequest" name="displayTuplesRequest">
 		<input type="submit" name="displayTuples"></p>
 	</form>
+
+	<hr />
+
+	<h2>Display Tuples in Missons</h2>
+	<form method="GET" action="">
+		<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
+		<input type="submit" name="displayMissionTuples"></p>
+	</form>
 </body>
 </html>
 <?php
