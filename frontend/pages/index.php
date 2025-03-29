@@ -67,7 +67,7 @@
 </body>
 </html>
 <?php
-include("backend/backend.php");
+include("../../backend/backend.php");
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();
