@@ -216,6 +216,12 @@ VALUES (5, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti E
 
 INSERT INTO Shelter 
 VALUES ('NO Shelter 1', 'New Orleans, LA', 1000, 950, 'Red Cross Center NO', 'New Orleans, LA');
+INSERT INTO Shelter
+VALUES ('Crescent City Refuge', 'New Orleans, LA', 1200, 1150, 'Red Cross Center NO', 'New Orleans, LA');
+INSERT INTO Shelter 
+VALUES ('Bayou Haven', 'Metairie, LA', 900, 850, 'Red Cross Center NO', 'New Orleans, LA');
+INSERT INTO Shelter 
+VALUES ('Jazz Shelter', 'Kenner, LA', 1100, 1050, 'Red Cross Center NO', 'New Orleans, LA');
 INSERT INTO Shelter 
 VALUES ('Fukushima Shelter 1', 'Fukushima, Japan', 2000, 1800, 'Red Cross Fukushima', 'Fukushima, Japan');
 INSERT INTO Shelter 
@@ -248,7 +254,7 @@ INSERT INTO AssistedBy
 VALUES (5, 5, TO_DATE('2010-01-14', 'YYYY-MM-DD'), 'Shelter Placement');
 
 INSERT INTO Supplies 
-VALUES (1, 'Water Bottles', 5000, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'NO Shelter 1', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
+VALUES (1, 'Dasani Water Bottles', 5000, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'NO Shelter 1', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
 INSERT INTO Supplies 
 VALUES (2, 'Blankets', 2000, NULL, 'Fukushima Shelter 1', 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 'Excellent');
 INSERT INTO Supplies 
@@ -257,6 +263,14 @@ INSERT INTO Supplies
 VALUES (4, 'Medical Kits', 1500, TO_DATE('2024-06-30', 'YYYY-MM-DD'), 'Indonesia Shelter 1', 'Jakarta, Indonesia', 'Fire Relief CA', 'Los Angeles, CA', 'Good');
 INSERT INTO Supplies 
 VALUES (5, 'Tents', 1000, NULL, 'Haiti Shelter 1', 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 'New');
+INSERT INTO Supplies 
+VALUES (6, 'Blankets', 1500, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
+INSERT INTO Supplies 
+VALUES (7, 'Mr. Beast Chocolates', 10000, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Poor');
+INSERT INTO Supplies 
+VALUES (8, 'First Aid Kits', 250, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Fair');
+INSERT INTO Supplies 
+VALUES (9, 'Sleeping Bags', 600, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
 
 INSERT INTO DeployedFor VALUES (2, 1, 50, TO_DATE('2023-01-10', 'YYYY-MM-DD'));
 INSERT INTO DeployedFor VALUES (2, 2, 100, TO_DATE('2023-02-15', 'YYYY-MM-DD'));
