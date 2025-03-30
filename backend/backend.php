@@ -6,17 +6,7 @@ function handleResetRequest()
 {
     global $db_conn;
     echo "<br> creating new disaster relief tables...<br>";
-
-    $sqlContent = file_get_contents('disasterrelief.sql');
-    foreach (explode(';', $sqlContent) as $sqlCommand) {
-        $sqlCommand = trim($sqlCommand);
-        if (empty($sqlCommand)) {
-            continue;
-        }
-
-        executePlainSQL($sqlCommand, $db_conn);
-    }
-    oci_commit($db_conn);
+    executeSQLFile('../disasterrelief.sql');
 }
 
 function handleCountRequest()

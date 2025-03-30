@@ -91,6 +91,51 @@ function connectToDB()
     }
 }
 
+function getTableString($result)
+{
+    $output = "<table>";
+    
+    $first_row = true;
+    while ($row = OCI_Fetch_Array($result, OCI_ASSOC)) {
+        if ($first_row) {
+            $output .= "<tr>";
+            foreach ($row as $column_name => $value) {
+                $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+            }
+            $output .= "</tr>";
+            $first_row = false;
+        }
+
+        $output .= "<tr>";
+        foreach ($row as $column_name => $value) {
+            $output .= "<td>" . htmlspecialchars($value) . "</td>";
+        }
+        $output .= "</tr>";
+    }
+    $output .= "</table>";
+
+    return $output;
+}
+
+function executeSQLFile($path) {
+    global $db_conn;
+    
+    $sqlContent = file_get_contents(__DIR__ . '/' . $path);
+    if ($sqlContent === false) {
+        echo "Error reading the SQL file." . error_get_last()['message'];
+    }
+
+    foreach (explode(';', $sqlContent) as $sqlCommand) {
+        $sqlCommand = trim($sqlCommand);
+        if (empty($sqlCommand)) {
+            continue;
+        }
+
+        executePlainSQL($sqlCommand, $db_conn);
+    }
+    oci_commit($db_conn);
+}
+
 function disconnectFromDB()
 {
     global $db_conn;
