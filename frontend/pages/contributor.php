@@ -4,7 +4,19 @@
 	<title>Disaster Relief Project</title>
 	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
 </head>
+<br /> <br /> <br />
+<?php
+include("../../backend/contributor_queries.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// runs every time a form is submitted
+// the type of request and form data is stored in global var $_POST 
+handleRequest();
+?>
 <body>
+	<div id = "missionDisplay"> 
+		<?php //handleMissionDisplayRequest() ?>
+	</div>
 	<div class="index_container">
 		<h2>Reset All Disaster Relief Tables</h2>
 		<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
@@ -35,9 +47,4 @@
 	</div>
 </body>
 </html>
-<?php
-include("../../backend/contributor_queries.php");
-// runs every time a form is submitted
-// the type of request and form data is stored in global var $_POST 
-handleRequest();
-?>
+
