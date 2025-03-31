@@ -11,37 +11,20 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 handleMissionDisplayRequest();
 
-function LocationsDropDown() {
-	global $locations;
-	$locations = getLocationOptions();
-	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
+// function LocationsDropDown() {
+// 	$locations = getLocationOptions();
+// 	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
 	
-	for ($i = 0; $i < count($locations['DISASTERLOCATION']); $i++) {
-		$disasterLocation = $locations['DISASTERLOCATION'][$i];
-		// $dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' '</option>';
-		$dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' . htmlspecialchars($disasterLocation) . '</option>';
-	}
-	$dropdown .= '</select>';
-	return $dropdown;
-}
-echo LocationsDropDown();
-
-
-
-// function suppliesDropDown() {
-// 	global $rc_name, $rc_location;
-
-// 	$supplies = getSupplyOptions($rc_name, $rc_location);
-// 	$dropdown = '<label for="supply">Select Supply:</label><select name="supply">';
-// 	for ($i = 0; $i < count($supplies['SUPPLYID']); $i++) {
-// 		$supplyID = $supplies['SUPPLYID'][$i];
-// 		$supplyName = $supplies['SUPPLYNAME'][$i];
-// 		$dropdown .= '<option value="' . htmlspecialchars($supplyID) . '">' . htmlspecialchars($supplyName) . '</option>';
+// 	for ($i = 0; $i < count($locations['DISASTERLOCATION']); $i++) {
+// 		$disasterLocation = $locations['DISASTERLOCATION'][$i];
+// 		$dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' . htmlspecialchars($disasterLocation) . '</option>';
 // 	}
 // 	$dropdown .= '</select>';
-
 // 	return $dropdown;
 // }
+// echo LocationsDropDown();
+
+
 
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
@@ -72,8 +55,47 @@ handleRequest();
 			<input type="submit" name="displayMissionTuples"></p>
 		</form> -->
 
-		<select> </select>
+		<!-- <h2>Filter Missions by</h2>
+		<form method="GET" action="">
+			<input type="hidden" id="filterMissionRequest" name="filterMissionRequest">
+			<?php //echo LocationsDropDown();?> <br /><br />
+			<label for="Help">Quantity:</label><input type="number" name="quantity"> <br /><br />
+			<label for="quality">Quality:</label><input type="text" name="quality"> <br /><br />
+			<label for="expDate">Expiration Date:</label><input type="text" name="expDate"> <br /><br />
+			<input type="submit" value="Filter" name="insertSubmit"></p>
+		</form> -->
+		<!--MISSIONID	MISSIONTYPE	DATEPOSTED	HELPNEEDED	DISASTERNAME	DISASTERDATE	DISASTERLOCATION	RCNAME	RCLOCATION	PRIORITY -->
+		<form method="GET" action="">
+			<label> 
+				<input type="checkbox" id="MissionTypeCheck" name="MissionTypeCheck" value="MissionType"></input> Mission Type 
+			</label>
+			<label> 
+				<input type="checkbox" id="DatePostedCheck" name="DatePostedCheck" value="DatePosted"></input> Date Posted 
+			</label>
+			<label> 
+				<input type="checkbox" id="HelpNeededCheck" name="HelpNeededCheck" value="HelpNeeded"></input> Help Needed 
+			</label>
+			<label> 
+				<input type="checkbox" id="DisasterNameCheck" name="DisasterNameCheck" value="DisasterName"></input> Disaster Name
+			</label>
+			<label> 
+				<input type="checkbox" id="DisasterDateCheck" name="DisasterDateCheck" value="DisasterDate"></input> Disaster Date 
+			</label>
+			<label> 
+				<input type="checkbox" id="DisasterLocationCheck" name="DisasterLocationCheck" value="DisasterLocation"></input> Disaster Location 
+			</label>
+			<label> 
+				<input type="checkbox" id="RCNameCheck" name="RCNameCheck" value="RCName"></input> Relief Center Name
+			</label>
+			<label> 
+				<input type="checkbox" id="RCLocationCheck" name="RCLocationCheck" value="RCLocation"></input> Relief Center Location
+			</label>
+			<label> 
+				<input type="checkbox" id="PriorityCheck" name="PriorityCheck" value="Priority"></input> Priority 
+			</label>
+		</form>
 
+		
         <hr />
 		<br /><br />
 
