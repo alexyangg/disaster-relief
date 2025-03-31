@@ -5,7 +5,6 @@
 	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
 </head>
 <body>
-	<!-- TODO: only shows tuples from Disaster; no inserts or updates yet -->
 	<div class="index_container">
 		<h2>Reset All Disaster Relief Tables</h2>
 		<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
@@ -16,28 +15,6 @@
 			<p><input type="submit" value="Reset" name="reset"></p>
 		</form>
 
-		<hr />
-
-		<h2>Insert Values into ??</h2>
-		<form method="POST" action="">
-			<input type="hidden" id="insertQueryRequest" name="insertQueryRequest">
-			Number: <input type="text" name="insNo"> <br /><br />
-			Name: <input type="text" name="insName"> <br /><br />
-			<input type="submit" value="Insert" name="insertSubmit"></p>
-		</form>
-
-		<hr />
-
-		<h2>Update Name in ??</h2>
-		<p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
-
-		<form method="POST" action="">
-			<input type="hidden" id="updateQueryRequest" name="updateQueryRequest">
-			Old Name: <input type="text" name="oldName"> <br /><br />
-			New Name: <input type="text" name="newName"> <br /><br />
-
-			<input type="submit" value="Update" name="updateSubmit"></p>
-		</form>
 
 		<hr />
 
@@ -59,7 +36,7 @@
 </body>
 </html>
 <?php
-include("../../backend/backend.php");
+include("../../backend/contributor_queries.php");
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();

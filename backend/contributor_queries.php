@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 include("db_utils.php");
-
+// fix the issue on why mission tuples are not displayed
 
 function handleRequest()
 {
@@ -10,9 +10,10 @@ function handleRequest()
             handleResetRequest();
         } else if (array_key_exists('updateQueryRequest', $_POST)) {
             handleUpdateRequest();
+        }  else if (array_key_exists('displayMissionTuples', $_GET)) {
+            handleMissionDisplayRequest();
         }
 
-        $suppliesTable = "Hello";
         disconnectFromDB();
     }
 }
@@ -27,33 +28,15 @@ function displaySupplies($rc_name, $rc_location) {
     }
 }
 
-function getSupplyOptions($rc_name, $rc_location) {
-    $supplies = array() ;
+function handleMissionDisplayRequest()
+{
     if (connectToDB()) {
         global $db_conn;
-
-        $query = "SELECT supplyID, supplyName FROM Supplies WHERE rcName='{$rc_name}' AND rcLocation='{$rc_location}'";
-        $result = executePlainSQL($query);
-        oci_fetch_all($result, $supplies, 0, -1, OCI_ASSOC);
+        $result = executePlainSQL("SELECT * FROM Mission");
+        printResult($result);
 
         disconnectFromDB();
     }
-
-    return $supplies;
 }
 
-function getShelterOptions($rc_name, $rc_location) {
-    $shelters = array() ;
-    if (connectToDB()) {
-        global $db_conn;
-
-        $query = "SELECT name, location FROM Shelter WHERE rcName='{$rc_name}' AND rcLocation='{$rc_location}'";
-        $result = executePlainSQL($query);
-        oci_fetch_all($result, $shelters, 0, -1, OCI_ASSOC);
-
-        disconnectFromDB();
-    }
-
-    return $shelters;
-}
 ?>
