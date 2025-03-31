@@ -49,6 +49,12 @@
 		</form>
 
 		<select> </select>
+
+        <hr />
+		<br /><br />
+
+		<a href="index.php"> <button> Home </button></a>
+
 	</div>
 </body>
 </html>

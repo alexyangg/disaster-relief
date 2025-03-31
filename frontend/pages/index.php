@@ -56,7 +56,10 @@
 			<input type="submit" name="displayTuples"></p>
 		</form>
 
-		<select> </select>
+		<hr />
+		<br /><br />
+
+		<a href="contributor.php"> <button> Contribute </button></a>
 	</div>
 </body>
 </html>
