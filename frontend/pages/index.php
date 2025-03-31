@@ -64,6 +64,8 @@
 			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
 			<input type="submit" name="displayMissionTuples"></p>
 		</form>
+
+		<select> </select>
 	</div>
 </body>
 </html>
