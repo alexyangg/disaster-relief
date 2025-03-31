@@ -57,7 +57,6 @@
 		</form>
 
 		<hr />
-		<p> test </p>
 
 		<h2>Display Tuples in Missons</h2>
 		<form method="GET" action="">
