@@ -11,13 +11,32 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 handleMissionDisplayRequest();
 
-// function LocationsDropDown() {
+function LocationsDropDown() {
+	global $locations;
+	$locations = getLocationOptions();
+	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
+	
+	for ($i = 0; $i < count($locations['DISASTERLOCATION']); $i++) {
+		$disasterLocation = $locations['DISASTERLOCATION'][$i];
+		// $dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' '</option>';
+		$dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' . htmlspecialchars($disasterLocation) . '</option>';
+	}
+	$dropdown .= '</select>';
+	return $dropdown;
+}
+echo LocationsDropDown();
 
-// 	$locations = getLocationOptions();
-// 	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
-// 	for ($i = 0; $i < count($locations['LOCATIONID']); $i++) {
-// 		$locationID = $supplies['LOCATIONID'][$i];
-// 		$dropdown .= '<option value="' . htmlspecialchars($locationID) . '">' '</option>';
+
+
+// function suppliesDropDown() {
+// 	global $rc_name, $rc_location;
+
+// 	$supplies = getSupplyOptions($rc_name, $rc_location);
+// 	$dropdown = '<label for="supply">Select Supply:</label><select name="supply">';
+// 	for ($i = 0; $i < count($supplies['SUPPLYID']); $i++) {
+// 		$supplyID = $supplies['SUPPLYID'][$i];
+// 		$supplyName = $supplies['SUPPLYNAME'][$i];
+// 		$dropdown .= '<option value="' . htmlspecialchars($supplyID) . '">' . htmlspecialchars($supplyName) . '</option>';
 // 	}
 // 	$dropdown .= '</select>';
 

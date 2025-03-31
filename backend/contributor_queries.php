@@ -29,7 +29,7 @@ function displaySupplies($rc_name, $rc_location) {
 }
 
 function getLocationOptions() {
-    $locations = array() ;
+    $locations = array();
     if (connectToDB()) {
         global $db_conn;
 
