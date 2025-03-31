@@ -41,19 +41,11 @@
 
 		<hr />
 
-		<h2>Count the Tuples in Disaster</h2>
+
+		<h2>Display Tuples in Missons</h2>
 		<form method="GET" action="">
-			<input type="hidden" id="countTupleRequest" name="countTupleRequest">
-			<input type="submit" name="countTuples"></p>
-		</form>
-
-
-		<hr />
-
-		<h2>Display Tuples in Disaster</h2>
-		<form method="GET" action="">
-			<input type="hidden" id="displayTuplesRequest" name="displayTuplesRequest">
-			<input type="submit" name="displayTuples"></p>
+			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
+			<input type="submit" name="displayMissionTuples"></p>
 		</form>
 
 		<select> </select>
