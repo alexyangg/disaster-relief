@@ -28,6 +28,22 @@ function displaySupplies($rc_name, $rc_location) {
     }
 }
 
+function getLocationOptions() {
+    $locations = array() ;
+    if (connectToDB()) {
+        global $db_conn;
+
+        $query = "SELECT DISTINCT disasterLocation FROM Mission";
+        $result = executePlainSQL($query);
+        oci_fetch_all($result, $locations, 0, -1, OCI_ASSOC);
+
+        disconnectFromDB();
+    }
+
+    return $locations;
+}
+
+
 function handleMissionDisplayRequest()
 {
     if (connectToDB()) {

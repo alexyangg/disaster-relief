@@ -9,9 +9,25 @@
 include("../../backend/contributor_queries.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+handleMissionDisplayRequest();
+
+// function LocationsDropDown() {
+
+// 	$locations = getLocationOptions();
+// 	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
+// 	for ($i = 0; $i < count($locations['LOCATIONID']); $i++) {
+// 		$locationID = $supplies['LOCATIONID'][$i];
+// 		$dropdown .= '<option value="' . htmlspecialchars($locationID) . '">' '</option>';
+// 	}
+// 	$dropdown .= '</select>';
+
+// 	return $dropdown;
+// }
+
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();
+
 ?>
 <body>
 	<div id = "missionDisplay"> 
@@ -31,11 +47,11 @@ handleRequest();
 		<hr />
 
 
-		<h2>Display Tuples in Missons</h2>
+		<!-- <h2>Display Tuples in Missons</h2>
 		<form method="GET" action="">
 			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
 			<input type="submit" name="displayMissionTuples"></p>
-		</form>
+		</form> -->
 
 		<select> </select>
 
