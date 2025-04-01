@@ -12,10 +12,56 @@ function handleRequest()
             handleUpdateSupplyRequest();
         } else if (array_key_exists('sendSupplyRequest', $_POST)) {
             handleSendSupplyRequest();
+        } else if (array_key_exists('createMissionRequest', $_POST)) {
+            handleCreateMissionRequest();
+        } else if (array_key_exists('deleteSupplyRequest', $_POST)) {
+            handleDeleteSupplyRequest();
         }
 
         disconnectFromDB();
     }
+}
+
+function handleDeleteSupplyRequest() {
+    global $db_conn;
+    global $rc_name, $rc_location;
+
+    $supplyID = $_POST['supply'];
+    $removeAmount = $_POST['removeAmount'];
+    if ($removeAmount <= 0) {
+        echo "<script>alert('Must remove a positive amount');</script>";
+        return;
+    }
+
+    $updateQuery = "UPDATE Supplies SET quantity=quantity-{$removeAmount} WHERE supplyID='{$supplyID}'";
+    $result = executePlainSQL($updateQuery);
+
+    $getQuantityQuery = "SELECT quantity FROM Supplies WHERE supplyID='{$supplyID}'";
+    if (oci_fetch_assoc(executePlainSQL($getQuantityQuery))["QUANTITY"] <= 0) {
+        $deleteQuery = "DELETE FROM Supplies WHERE supplyID='{$supplyID}'";
+        executePlainSQL($deleteQuery);
+    }
+
+    oci_commit($db_conn);
+}
+
+function handleCreateMissionRequest() {
+    global $db_conn;
+    global $rc_name, $rc_location;
+
+    $missionID = generateID();
+    list($name, $location, $disasterDate) = explode("@", $_POST['disaster']);
+    $helpNeeded = $_POST['helpNeeded'];
+    $missionType = $_POST['missionType'];
+    $priority = $_POST['priority'];
+
+    $query = "INSERT INTO Mission VALUES ({$missionID}, 
+        '{$missionType}', SYSDATE, {$helpNeeded}, '{$name}', 
+        '{$disasterDate}', '{$location}', 
+        '{$rc_name}', '{$rc_location}', '{$priority}')";
+
+    executePlainSQL($query);
+    oci_commit($db_conn);
 }
 
 function handleUpdateSupplyRequest() {
@@ -28,13 +74,7 @@ function handleUpdateSupplyRequest() {
     $expDate = $_POST['expDate'];
 
     $updates = [];
-    if ($quantity !== "") {
-        if ($_POST["opType"] == "sub") {
-            $updates[] = "quantity=quantity-'{$quantity}'";
-        } else {
-            $updates[] = "quantity=quantity+'{$quantity}'";
-        }
-    }
+    if ($quantity !== "") $updates[] = "quantity=quantity+'{$quantity}'";
     if ($quality !== "") $updates[] = "quality='{$quality}'";
     if ($expDate !== "") $updates[] = "expirationDate=TO_DATE('{$expDate}', 'YYYY-MM-DD')";
 
@@ -50,7 +90,6 @@ function handleUpdateSupplyRequest() {
 function handleSendSupplyRequest() {
     global $db_conn;
     global $rc_name, $rc_location;
-    error_log("HELLO");
 
     $supplyID = $_POST['supply'];
     list($shelterName, $shelterLocation) = explode("@", $_POST['shelter']);
@@ -128,5 +167,22 @@ function getShelterOptions() {
     }
 
     return $shelters;
+}
+
+function getDisasterOptions() {
+    global $rc_name, $rc_location;
+
+    $disasters = array() ;
+    if (connectToDB()) {
+        global $db_conn;
+
+        $query = "SELECT name, location, disasterDate FROM Disaster";
+        $result = executePlainSQL($query);
+        oci_fetch_all($result, $disasters, 0, -1, OCI_ASSOC);
+
+        disconnectFromDB();
+    }
+
+    return $disasters;
 }
 ?>
