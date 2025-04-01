@@ -13,18 +13,8 @@ function handleRequest()
         }  else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
         }  else if (array_key_exists('checkboxes', $_POST)) {
-            filterMission();
+            projectMission();
         }
-
-        disconnectFromDB();
-    }
-}
-
-function displaySupplies($rc_name, $rc_location) {
-    if (connectToDB()) {
-        global $db_conn;
-        $supplies = executePlainSQL("SELECT * FROM Supplies WHERE rcName='{$rc_name}' AND rcLocation='{$rc_location}'");
-        echo getTableString($supplies);
 
         disconnectFromDB();
     }
@@ -58,15 +48,14 @@ function handleMissionDisplayRequest()
 }
 
 
-function filterMission() {
+function projectMission() {
 
     if (connectToDB()) {
         global $db_conn;
-        $query = "SELECT MissionID,";
+        $query = "SELECT ";
         if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
             // Loop through all selected checkbox values
             foreach ($_POST['checkboxes'] as $checkbox) {
-                echo "Selected Option: " . htmlspecialchars($checkbox) . "<br>";
                 // adds to select query
                 $query .= " " . $checkbox . ",";
             }
@@ -76,10 +65,8 @@ function filterMission() {
         } else {
             echo "No checkboxes selected.";
         }
-        echo $query;
         $result = executePlainSQL($query);
-        $str = json_encode($result);
-        echo $str;
+        echo getTableString($result);
         disconnectFromDB();
     }
 }
