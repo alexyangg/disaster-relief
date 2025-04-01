@@ -20,20 +20,20 @@ function handleRequest()
     }
 }
 
-function getLocationOptions() {
-    $locations = array();
-    if (connectToDB()) {
-        global $db_conn;
+// function getLocationOptions() {
+//     $locations = array();
+//     if (connectToDB()) {
+//         global $db_conn;
 
-        $query = "SELECT DISTINCT disasterLocation FROM Mission";
-        $result = executePlainSQL($query);
-        oci_fetch_all($result, $locations, 0, -1, OCI_ASSOC);
+//         $query = "SELECT DISTINCT disasterLocation FROM Mission";
+//         $result = executePlainSQL($query);
+//         oci_fetch_all($result, $locations, 0, -1, OCI_ASSOC);
 
-        disconnectFromDB();
-    }
+//         disconnectFromDB();
+//     }
 
-    return $locations;
-}
+//     return $locations;
+// }
 
 
 function handleMissionDisplayRequest()
