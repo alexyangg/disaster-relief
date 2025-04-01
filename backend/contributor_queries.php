@@ -12,6 +12,8 @@ function handleRequest()
             handleUpdateRequest();
         }  else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
+        }  else if (array_key_exists('checkboxes', $_POST)) {
+            filterMission();
         }
 
         disconnectFromDB();
@@ -51,6 +53,33 @@ function handleMissionDisplayRequest()
         $result = executePlainSQL("SELECT * FROM Mission");
         // printResult($result);
         echo getTableString($result);
+        disconnectFromDB();
+    }
+}
+
+
+function filterMission() {
+
+    if (connectToDB()) {
+        global $db_conn;
+        $query = "SELECT MissionID,";
+        if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
+            // Loop through all selected checkbox values
+            foreach ($_POST['checkboxes'] as $checkbox) {
+                echo "Selected Option: " . htmlspecialchars($checkbox) . "<br>";
+                // adds to select query
+                $query .= " " . $checkbox . ",";
+            }
+            // gets rid of leading ","
+            $query = substr($query,0,-1);
+            $query .= " FROM Mission";
+        } else {
+            echo "No checkboxes selected.";
+        }
+        echo $query;
+        $result = executePlainSQL($query);
+        $str = json_encode($result);
+        echo $str;
         disconnectFromDB();
     }
 }
