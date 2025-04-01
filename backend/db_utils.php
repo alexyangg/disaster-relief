@@ -90,16 +90,19 @@ function connectToDB()
     }
 }
 
-function getTableString($result)
+function getTableString($result, $show_rows=NULL, $limit=1000)
 {
-    $output = "<table>";
+    $output = "<table class='sql-result-table'>";
     
     $first_row = true;
-    while ($row = OCI_Fetch_Array($result, OCI_ASSOC)) {
+    $i = 0;
+    while (($row = OCI_Fetch_Array($result, OCI_ASSOC)) && $i < $limit) {
         if ($first_row) {
             $output .= "<tr>";
             foreach ($row as $column_name => $value) {
-                $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+                if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                    $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+                }
             }
             $output .= "</tr>";
             $first_row = false;
@@ -107,9 +110,12 @@ function getTableString($result)
 
         $output .= "<tr>";
         foreach ($row as $column_name => $value) {
-            $output .= "<td>" . htmlspecialchars($value) . "</td>";
+            if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                $output .= "<td>" . htmlspecialchars($value) . "</td>";
+            }
         }
         $output .= "</tr>";
+        $i++;
     }
     $output .= "</table>";
 
@@ -151,5 +157,19 @@ function disconnectFromDB()
         debugAlertMessage("Database connection is already closed or not initialized.");
     }
 
+}
+
+function validateDate($date, $format = 'Y-m-d') {
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
+
+// WILL DO FOR NOW!!
+function generateID() {
+    return hexdec(substr(hash('sha256', time()), 0, 16));
+}
+
+function console_error($message) {
+    echo "<script>console.error('". addslashes($message) ."');</script>";
 }
 ?>
