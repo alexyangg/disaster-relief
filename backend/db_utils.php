@@ -140,7 +140,17 @@ function disconnectFromDB()
 {
     global $db_conn;
 
-    debugAlertMessage("Disconnect from Database");
-    oci_close($db_conn);
+    if ($db_conn) {
+        debugAlertMessage("Disconnecting from Database");
+        try {
+            oci_close($db_conn);
+            $db_conn = null;
+        } catch (Exception $e) {
+            debugAlertMessage("Error closing database connection: " . $e->getMessage());
+        }
+    } else {
+        debugAlertMessage("Database connection is already closed or not initialized.");
+    }
+
 }
 ?>
