@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Disaster Relief Project</title>
-	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
+	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
 </head>
 <body>
 	<!-- TODO: only shows tuples from Disaster; no inserts or updates yet -->
