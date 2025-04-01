@@ -141,7 +141,7 @@ function disconnectFromDB()
     global $db_conn;
 
     if ($db_conn) {
-        debugAlertMessage("Disconnecting from Database");
+        debugAlertMessage("Disconnecting from the Database");
         try {
             oci_close($db_conn);
             $db_conn = null;
