@@ -108,7 +108,7 @@ CREATE TABLE DeployedFor (
     dateDeployed DATE,
     PRIMARY KEY (missionID, supplyID),
     FOREIGN KEY (missionID) REFERENCES Mission(missionID),
-    FOREIGN KEY (supplyID) REFERENCES Supplies(supplyID)
+    FOREIGN KEY (supplyID) REFERENCES Supplies(supplyID) ON DELETE CASCADE
 );
 
 CREATE TABLE Contributor (
