@@ -6,17 +6,7 @@ function handleResetRequest()
 {
     global $db_conn;
     echo "<br> creating new disaster relief tables...<br>";
-
-    $sqlContent = file_get_contents('disasterrelief.sql');
-    foreach (explode(';', $sqlContent) as $sqlCommand) {
-        $sqlCommand = trim($sqlCommand);
-        if (empty($sqlCommand)) {
-            continue;
-        }
-
-        executePlainSQL($sqlCommand, $db_conn);
-    }
-    oci_commit($db_conn);
+    executeSQLFile('../disasterrelief.sql');
 }
 
 function handleCountRequest()
@@ -30,15 +20,57 @@ function handleCountRequest()
     }
 }
 
-function handleDisplayRequest()
+// TODO: modify the SELECT clause to include user-input params,
+// if user hasn't input any params, then select all (*)
+function handleDisasterDisplayRequest()
 {
     global $db_conn;
-    $result = executePlainSQL("SELECT * FROM Disaster");
+
+    $query = "SELECT * FROM Disaster WHERE 1=1";
+    $params = [];
+
+    $filters = [
+        "name" => "disasterName",
+        "disasterDate" => "disasterDate",
+        "location" => "disasterLocation",
+        "damageCost" => "damageCost",
+        "casualties" => "casualties",
+        "severityLevel" => "severityLevel",
+        "type" => "type"
+    ];
+
+    foreach ($filters as $column => $param) {
+        if (!empty($_GET[$param])) {
+            $query .= " AND LOWER($column) LIKE LOWER(:$param)";
+            $params[$param] = "%" . $_GET[$param] . "%";
+        }
+    }
+
+    $result = oci_parse($db_conn, $query);
+    foreach ($params as $param => $value) {
+        oci_bind_by_name($result, ":$param", $params[$param]);
+    }
+    echo $query;
+
+    oci_execute($result);
+
+    // if (!empty($_GET["disasterName"])) {
+    //     $query .= " AND disasterName LIKE :disasterName";
+    //     $params[":disasterName"] = "%" . $_GET["disasterName"] . "%";
+    // }
+
+    // // $result = executePlainSQL("SELECT * FROM Disaster");
+    // $result = $db_conn->prepare($query);
+    // $result->execute($params);
     printResult($result);
 }
 
+// TODO: modify the SELECT clause to include user-input params,
+// if user hasn't input any params, then select all (*)
 function handleMissionDisplayRequest()
 {
+    // TODO: mission primary key is a the missionId, but user query doesn't
+    // include missionId. How to find the correct missions
     global $db_conn;
     $result = executePlainSQL("SELECT * FROM Mission");
     printResult($result);
@@ -68,6 +100,11 @@ function printResult($result)
         echo "</tr>";
     }
     echo "</table>";
+}
+
+function handleDisasterReliefProgressDisplayRequest()
+{
+    //TODO
 }
 
 function handleInsertRequest()
@@ -102,6 +139,11 @@ function handleUpdateRequest()
 
 // HANDLE ALL ROUTES
 // A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
+
+// need 3 queries for the frontend: query all disasters, query filtered disasters (select)
+// using user-passed in arguments, 
+// 2. view disaster relief progress, aggregation query
+// 3. Calculate the average damageCost of disasters across all disasters (aggregation with group by) 
 function handleRequest()
 {
     if (connectToDB()) {
@@ -113,10 +155,13 @@ function handleRequest()
             handleInsertRequest();
         } else if (array_key_exists('countTuples', $_GET)) {
             handleCountRequest();
-        } else if (array_key_exists('displayTuples', $_GET)) {
-            handleDisplayRequest();
+        } else if (array_key_exists('displayDisasterTuplesRequest', $_GET)) {
+            echo "hit";
+            handleDisasterDisplayRequest();
         } else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
+        } else if (array_key_exists('displayDisasterReliefProgress')) {
+            handleDisasterReliefProgressDisplayRequest();
         }
 
         disconnectFromDB();
