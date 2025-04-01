@@ -65,8 +65,11 @@ handleRequest();
 			<input type="submit" value="Filter" name="insertSubmit"></p>
 		</form> -->
 		<!--MISSIONID	MISSIONTYPE	DATEPOSTED	HELPNEEDED	DISASTERNAME	DISASTERDATE	DISASTERLOCATION	RCNAME	RCLOCATION	PRIORITY -->
-		<h2>Filter Missions by</h2>
+		<h2>Compare Missions by</h2>
 		<form method="POST" action="">
+			<label>
+				<input type="checkbox" name="checkboxes[]" value="MissionID"> Mission ID
+			</label><br>
 			<label>
 				<input type="checkbox" name="checkboxes[]" value="MissionType"> Mission Type
 			</label><br>
