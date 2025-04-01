@@ -26,7 +26,7 @@ function suppliesDropDown() {
 function sheltersDropDown() {
 	$shelters = getShelterOptions();
 	$dropdown = '<label for="shelter">Send to:</label><select name="shelter">';
-	$dropdown .= '<option value="">--none selected--</option>';
+	$dropdown .= '<option value="">--None Selected--</option>';
 	for ($i = 0; $i < count($shelters['NAME']); $i++) {
 		$name = $shelters['NAME'][$i] . '@' . $shelters['LOCATION'][$i];
 		$dropdown .= '<option value="' . htmlspecialchars($name) . '">' . htmlspecialchars($name) . '</option>';
@@ -53,6 +53,7 @@ function disasterDropdown() {
 // every time a form is submitted, page is refreshed and code below is run
 // the type of request and form data is stored in global var $_POST 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	var_dump($_POST);
 	handleRequest();
 	// header("Location: ".$_SERVER['PHP_SELF']);
     // exit;
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <body>
 	<div class="index_container">
+		<h1>Admin Page for <?php echo $rc_name; ?>, <?php echo $rc_location; ?></h2>
 		<h2>Initiate a Mission (INSERT)</h2>
 		<form method="POST" action="">
 			<input type="hidden" id="createMissionRequest" name="createMissionRequest">
@@ -81,10 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<hr />
 
 		<!-- TODO: merge update + send to one big UPDATE query-->
-		<h2>Update Supply Information</h2>
+		<h2>Update/Send Supplies (UPDATE)</h2>
 		<form method="POST" action="">
 			<input type="hidden" id="updateSupplyRequest" name="updateSupplyRequest">
 			<?php echo suppliesDropDown();?> <br /><br />
+			<label for="supplyName">Change Name: </label><input name="supplyName"> <br /><br />
 			<label for="quality">Change Quality:</label>
 			<select name="quality">
 				<option value="">--None Selected--</option>
@@ -94,21 +97,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<option value="Fair">Fair</option>
 				<option value="Poor">Poor</option>
 			</select> <br /><br />
-			<label>Amount to Add:</label>
+			<label>Add Quantity:</label>
 			<input type="number" name="quantity">
-			<br /><br />
+			<br /><br />		
 			<label for="expDate">Change Expiration Date:</label><input type="date" name="expDate"> <br /><br />
-			<input type="submit" value="Update Supply" name="insertSubmit"></p>
-		</form>
-
-		<hr />
-		<h2>Send Supplies to a Shelter</h2>
-		<form method="POST" action="">
-			<input type="hidden" id="sendSupplyRequest" name="sendSupplyRequest">
-			<?php echo suppliesDropDown();?> <br /><br />
-			<?php echo sheltersDropDown();?> <br /><br />
-			<label for="sendAmount">Amount to send:</label><input type="number" name="sendAmount"> <br /><br />
-			<input type="submit" value="Send Supply" name="insertSubmit"></p>
+			<div>
+				<h3>Send Supply?</h3>
+				<?php echo sheltersDropDown();?> <br /><br />
+				<label for="sendAmount">Send Quantity:</label><input type="number" name="sendAmount"> <br /><br />
+				<input type="submit" value="Update/Send Supply" name="insertSubmit"></p>
+			</div>
 		</form>
 
 		<hr />

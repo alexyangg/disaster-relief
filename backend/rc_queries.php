@@ -10,8 +10,6 @@ function handleRequest()
     if (connectToDB()) {
         if (array_key_exists('updateSupplyRequest', $_POST)) {
             handleUpdateSupplyRequest();
-        } else if (array_key_exists('sendSupplyRequest', $_POST)) {
-            handleSendSupplyRequest();
         } else if (array_key_exists('createMissionRequest', $_POST)) {
             handleCreateMissionRequest();
         } else if (array_key_exists('deleteSupplyRequest', $_POST)) {
@@ -68,26 +66,30 @@ function handleUpdateSupplyRequest() {
     global $db_conn;
     global $rc_name, $rc_location;
 
+    $supplyName = $_POST['supplyName'];
     $supplyID = $_POST['supply'];
     $quantity = $_POST['quantity'];
     $quality = $_POST['quality'];
     $expDate = $_POST['expDate'];
 
     $updates = [];
-    if ($quantity !== "") $updates[] = "quantity=quantity+'{$quantity}'";
+    if ($supplyName !== "") $updates[] = "supplyName='{$supplyName}'";
+    if ($quantity !== "") $updates[] = "quantity=quantity+{$quantity}";
     if ($quality !== "") $updates[] = "quality='{$quality}'";
     if ($expDate !== "") $updates[] = "expirationDate=TO_DATE('{$expDate}', 'YYYY-MM-DD')";
 
-    if (empty($updates)) {
-        return;
+    if (!empty($updates)) {
+        $query = "UPDATE Supplies SET " . implode(", ", $updates) . " WHERE supplyID='{$supplyID}'";
+        executePlainSQL($query);
+        oci_commit($db_conn);
     }
 
-    $query = "UPDATE Supplies SET " . implode(", ", $updates) . " WHERE supplyID='{$supplyID}'";
-    executePlainSQL($query);
-    oci_commit($db_conn);
+    if ($_POST['shelter'] !== '') {
+        sendSupplyRequest();
+    }
 }
 
-function handleSendSupplyRequest() {
+function sendSupplyRequest() {
     global $db_conn;
     global $rc_name, $rc_location;
 
@@ -96,7 +98,7 @@ function handleSendSupplyRequest() {
     $sendAmount = $_POST['sendAmount'];
 
     if ($sendAmount <= 0) {
-        echo "<script>alert('Must send a positive amount');</script>";
+        echo "<script>alert('Amount to Sent Must Be a Postive Number!');</script>";
         return;
     }
 
@@ -113,13 +115,30 @@ function handleSendSupplyRequest() {
         echo "<script>alert('Must be sent to a different shelter!');</script>";
         return;
     }
-    
-    $gen_id = generateID();
-    $query = "INSERT INTO Supplies VALUES ({$gen_id}, '{$supply[1]}', {$sendAmount}, '{$supply[3]}', '{$shelterName}', '{$shelterLocation}', '{$supply[6]}', '{$supply[7]}', '{$supply[8]}')";
-    executePlainSQL($query);
 
-    $query = "UPDATE Supplies SET quantity=quantity-{$sendAmount}, shelterName='{$shelterName}', shelterLocation='{$shelterLocation}' WHERE supplyID={$supplyID}";
-    executePlainSQL($query);
+    // remove supply from shelter being sent from
+    $removeQuery = "UPDATE Supplies SET quantity=quantity-{$sendAmount} WHERE supplyID={$supplyID}";
+    executePlainSQL($removeQuery);
+    
+    // send supply to new shelter; 
+    // if supply is already there we just update it, otherwise we add a new supply
+    $checkQuery = "SELECT supplyID FROM Supplies WHERE 
+        shelterName='{$shelterName}' AND shelterLocation='{$shelterLocation}' AND
+        supplyName='{$supply[1]}'";
+    $row = oci_fetch_assoc(executePlainSQL($checkQuery));
+    if ($row) {
+        $existingSupplyID = $row['SUPPLYID'];
+        $updateQuery = "UPDATE Supplies SET quantity = quantity + {$sendAmount} 
+                        WHERE supplyID = {$existingSupplyID}";
+        executePlainSQL($updateQuery);
+    } else {
+        $gen_id = generateID();
+        $insertQuery = "INSERT INTO Supplies VALUES ({$gen_id}, '{$supply[1]}', 
+            {$sendAmount}, '{$supply[3]}', '{$shelterName}', '{$shelterLocation}', 
+            '{$supply[6]}', '{$supply[7]}', '{$supply[8]}')";
+        executePlainSQL($insertQuery);
+    }
+
     oci_commit($db_conn);
 }
 
