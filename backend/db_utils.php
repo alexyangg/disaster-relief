@@ -77,7 +77,6 @@ function connectToDB()
 
     // Your username is ora_(CWL_ID) and the password is a(student number). For example,
     // ora_platypus is the username and a12345678 is the password.
-    // $db_conn = oci_connect("ora_cwl", "a12345678", "dbhost.students.cs.ubc.ca:1522/stu");
     $db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
 
     if ($db_conn) {
@@ -146,8 +145,18 @@ function disconnectFromDB()
 {
     global $db_conn;
 
-    debugAlertMessage("Disconnect from Database");
-    oci_close($db_conn);
+    if ($db_conn) {
+        debugAlertMessage("Disconnecting from the Database");
+        try {
+            oci_close($db_conn);
+            $db_conn = null;
+        } catch (Exception $e) {
+            debugAlertMessage("Error closing database connection: " . $e->getMessage());
+        }
+    } else {
+        debugAlertMessage("Database connection is already closed or not initialized.");
+    }
+
 }
 
 function validateDate($date, $format = 'Y-m-d') {

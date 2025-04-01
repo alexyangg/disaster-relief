@@ -58,11 +58,7 @@
 
 		<hr />
 
-		<h2>Display Tuples in Missons</h2>
-		<form method="GET" action="">
-			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
-			<input type="submit" name="displayMissionTuples"></p>
-		</form>
+		<a href="contributor.php"> <button> Contribute </button></a>
 	</div>
 </body>
 </html>

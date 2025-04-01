@@ -27,12 +27,6 @@ function handleDisplayRequest()
     printResult($result);
 }
 
-function handleMissionDisplayRequest()
-{
-    global $db_conn;
-    $result = executePlainSQL("SELECT * FROM Mission");
-    printResult($result);
-}
 
 function printResult($result)
 {
