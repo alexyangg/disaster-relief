@@ -237,7 +237,18 @@ INSERT INTO Mission
 VALUES (16, 'Medical Aid', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
 INSERT INTO Mission 
 VALUES (17, 'Reconstruction', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
-
+INSERT INTO Mission 
+VALUES (18, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+INSERT INTO Mission 
+VALUES (19, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 103, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 4);
+INSERT INTO Mission 
+VALUES (20, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 20, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 3);
+INSERT INTO Mission 
+VALUES (21, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 20, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 2);
+INSERT INTO Mission 
+VALUES (22, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 20, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 2);
+INSERT INTO Mission 
+VALUES (23, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 20, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 5);
 
 
 INSERT INTO Shelter 
