@@ -86,6 +86,13 @@ handleRequest();
 
 		</form>
 
+		<hr />
+		<br />
+		<h2>Find Disasters with All Mission Types (DIVISION): </h2>
+		<form method="POST" action="">
+			<input type="submit" name="divisionMission" value="Submit">
+			</input><br>
+		</form>
         <hr />
 		<br /><br />
 

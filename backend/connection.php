@@ -1,10 +1,6 @@
 <?php
 // Set some parameters
-
-// Database access configuration
-$config["dbuser"] = "ora_axie08";			// change "cwl" to your own CWL
-$config["dbpassword"] = "a17324963";	// change to 'a' + your student number
-$config["dbserver"] = "dbhost.students.cs.ubc.ca:1522/stu";
+$config = parse_ini_file(__DIR__ . "/../config.ini", true)["database"];
 $db_conn = NULL;	// login credentials are used in connectToDB()
 
 // The following 3 lines allow PHP errors to be displayed along with the page

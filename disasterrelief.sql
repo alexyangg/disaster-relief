@@ -204,15 +204,15 @@ INSERT INTO Disaster
 VALUES ('Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 8000000000, 160000, 9, 'Earthquake');
 
 INSERT INTO Mission 
-VALUES (1, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 5000, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+VALUES (1, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
 INSERT INTO Mission 
-VALUES (2, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 10000, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 9);
+VALUES (2, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 20, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 9);
 INSERT INTO Mission 
-VALUES (3, 'Firefighting', TO_DATE('2020-09-02', 'YYYY-MM-DD'), 2000, 'California Wildfires', TO_DATE('2020-09-01', 'YYYY-MM-DD'), 'California, USA', 'Fire Relief CA', 'Los Angeles, CA', 7);
+VALUES (3, 'Firefighting', TO_DATE('2020-09-02', 'YYYY-MM-DD'), 30, 'California Wildfires', TO_DATE('2020-09-01', 'YYYY-MM-DD'), 'California, USA', 'Fire Relief CA', 'Los Angeles, CA', 7);
 INSERT INTO Mission 
-VALUES (4, 'Medical Aid', TO_DATE('2004-12-27', 'YYYY-MM-DD'), 7000, 'Tsunami Indian Ocean', TO_DATE('2004-12-26', 'YYYY-MM-DD'), 'Indonesia', 'Disaster Aid Indonesia', 'Jakarta, Indonesia', 8);
+VALUES (4, 'Medical Aid', TO_DATE('2004-12-27', 'YYYY-MM-DD'), 3, 'Tsunami Indian Ocean', TO_DATE('2004-12-26', 'YYYY-MM-DD'), 'Indonesia', 'Disaster Aid Indonesia', 'Jakarta, Indonesia', 8);
 INSERT INTO Mission 
-VALUES (5, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 6);
+VALUES (5, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 103, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 6);
 INSERT INTO Mission 
 VALUES (6, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 5000, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 9);
 INSERT INTO Mission 
@@ -229,6 +229,16 @@ INSERT INTO Mission
 VALUES (12, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 2);
 INSERT INTO Mission 
 VALUES (13, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 10000, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 9);
+INSERT INTO Mission 
+VALUES (14, 'Evacuation', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
+INSERT INTO Mission 
+VALUES (15, 'Firefighting', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
+INSERT INTO Mission 
+VALUES (16, 'Medical Aid', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
+INSERT INTO Mission 
+VALUES (17, 'Reconstruction', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 1);
+
+
 
 INSERT INTO Shelter 
 VALUES ('NO Shelter 1', 'New Orleans, LA', 1000, 950, 'Red Cross Center NO', 'New Orleans, LA');
@@ -280,13 +290,13 @@ VALUES (4, 'Medical Kits', 1500, TO_DATE('2024-06-30', 'YYYY-MM-DD'), 'Indonesia
 INSERT INTO Supplies 
 VALUES (5, 'Tents', 1000, NULL, 'Haiti Shelter 1', 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 'New');
 INSERT INTO Supplies 
-VALUES (6, 'Blankets', 1500, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
+VALUES (6, 'Blankets', 1500, NULL, 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
 INSERT INTO Supplies 
-VALUES (7, 'Mr. Beast Chocolates', 10000, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Poor');
+VALUES (7, 'Mr. Beast Chocolates', 10000, TO_DATE('2025-08-01', 'YYYY-MM-DD'), 'Crescent City Refuge', 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Poor');
 INSERT INTO Supplies 
-VALUES (8, 'First Aid Kits', 250, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Fair');
+VALUES (8, 'First Aid Kits', 250, NULL, 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Fair');
 INSERT INTO Supplies 
-VALUES (9, 'Sleeping Bags', 600, TO_DATE('2025-12-31', 'YYYY-MM-DD'), 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
+VALUES (9, 'Sleeping Bags', 600, NULL, 'Bayou Haven', 'Metairie, LA', 'Red Cross Center NO', 'New Orleans, LA', 'Good');
 
 INSERT INTO DeployedFor VALUES (2, 1, 50, TO_DATE('2023-01-10', 'YYYY-MM-DD'));
 INSERT INTO DeployedFor VALUES (2, 2, 100, TO_DATE('2023-02-15', 'YYYY-MM-DD'));
@@ -347,6 +357,10 @@ VALUES (5, 400, TO_DATE('2023-05-20', 'YYYY-MM-DD'), 'Tents', 'Emily Davis', '55
 INSERT INTO VolunteersFor 
 VALUES (1, 'John Smith', '555-123-4567', 'Medical Aid', 'Active');
 INSERT INTO VolunteersFor 
+VALUES (4, 'John Smith', '555-123-4567', 'Medical Aid', 'Active');
+INSERT INTO VolunteersFor 
+VALUES (1, 'David Wilson', '555-654-3210', 'Shelter Management', 'Completed');
+INSERT INTO VolunteersFor 
 VALUES (2, 'Emily Johnson', '555-987-6543', 'Logistics Coordinator', 'Active');
 INSERT INTO VolunteersFor 
 VALUES (3, 'Michael Brown', '555-456-7890', 'Rescue Worker', 'On Standby');
@@ -354,6 +368,10 @@ INSERT INTO VolunteersFor
 VALUES (4, 'Sarah Williams', '555-321-0987', 'Food Distribution', 'Active');
 INSERT INTO VolunteersFor 
 VALUES (5, 'David Wilson', '555-654-3210', 'Shelter Management', 'Completed');
+INSERT INTO VolunteersFor 
+VALUES (4, 'Michael Brown', '555-456-7890', 'Rescue Worker', 'Active');
+INSERT INTO VolunteersFor 
+VALUES (4, 'David Wilson', '555-654-3210', 'Shelter Management', 'Completed');
 
 INSERT INTO ReportsTo 
 VALUES ('Red Cross Center NO', 'New Orleans, LA', 'John Smith', '555-123-4567', TO_DATE('2023-01-12', 'YYYY-MM-DD'));
