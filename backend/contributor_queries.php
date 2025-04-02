@@ -100,7 +100,7 @@ function projectMission() {
 function aggregateGroupByMission() {
     if (connectToDB()) {
         global $db_conn;
-        $result = executePlainSQL("SELECT MissionType, MAX(Priority) FROM Mission GROUP BY MissionType");
+        $result = executePlainSQL("SELECT MissionType, AVG(Priority) AS AvgPriority, COUNT(*) AS MissionCount FROM Mission GROUP BY MissionType");
         echo getTableString($result);
         disconnectFromDB();
     }

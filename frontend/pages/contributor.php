@@ -69,7 +69,7 @@ handleRequest();
 
 		<hr />
 
-		<h2> Highest Priority of Each Type (AGGREGATION with GROUP BY)</h2>
+		<h2>Find Average Priority of Each Mission Type (AGGREGATION with GROUP BY)</h2>
 		<form method = "POST" action = ""> 
 			<input type="submit" name="aggregateGroupByMission" value="Aggregate!">
 			</input><br>
