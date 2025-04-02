@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../styles/navbar.css">
 <nav class="navbar">
-    <a href="../pages/index.php" style="text-decoration: none; color: black;">
+    <a href="../pages/index.php">
         <h1>Disaster Relief Response</h1>
     </a>    
     <div class="buttons">
