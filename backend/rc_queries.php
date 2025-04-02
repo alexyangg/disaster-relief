@@ -23,7 +23,7 @@ function handleRequest()
 }
 
 function handleMissingHelpQuery() {
-    global $db_conn;
+    global $db_conn, $missingHelpResult;
     global $rc_name, $rc_location;
 
     $query = "
@@ -39,8 +39,9 @@ function handleMissingHelpQuery() {
     ";
 
     $result = executePlainSQL($query);
-    echo getTableString($result);
     oci_commit($db_conn);
+
+    $missingHelpResult = getTableString($result);
 }
 
 function handleDeleteSupplyRequest() {
@@ -67,7 +68,7 @@ function handleDeleteSupplyRequest() {
 }
 
 function handleCreateMissionRequest() {
-    global $db_conn;
+    global $db_conn, $missionTableResult;
     global $rc_name, $rc_location;
 
     $missionID = generateID();
@@ -82,6 +83,9 @@ function handleCreateMissionRequest() {
         '{$rc_name}', '{$rc_location}', '{$priority}')";
 
     executePlainSQL($query);
+
+    $result = executePlainSQL("SELECT * FROM Mission");
+    $missionTableResult = getTableString($result);
     oci_commit($db_conn);
 }
 

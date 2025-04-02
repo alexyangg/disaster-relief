@@ -129,7 +129,6 @@ function getTableString($result, $show_columns=NULL, $limit=1000)
 
 function executeSQLFile($path) {
     global $db_conn;
-    
     $sqlContent = file_get_contents(__DIR__ . '/' . $path);
     if ($sqlContent === false) {
         echo "Error reading the SQL file." . error_get_last()['message'];
@@ -176,5 +175,16 @@ function generateID() {
 
 function console_error($message) {
     echo "<script>console.error('". addslashes($message) ."');</script>";
+}
+
+if (array_key_exists('resetTablesRequest', $_POST)) {
+    global $db_conn;
+
+    if (connectToDB()) {   
+        echo "<br> creating new disaster relief tables...<br>";
+        executeSQLFile('../disasterrelief.sql');
+
+        disconnectFromDB();
+    }
 }
 ?>

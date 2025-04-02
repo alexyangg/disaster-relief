@@ -343,7 +343,7 @@ VALUES (4, 'Sarah Williams', '555-321-0987', 'Food Distribution', 'Active');
 INSERT INTO VolunteersFor 
 VALUES (5, 'David Wilson', '555-654-3210', 'Shelter Management', 'Completed');
 INSERT INTO VolunteersFor 
-VALUES (4, 'Sarah Williams', '555-321-0987', 'Food Distribution', 'Active');
+VALUES (4, 'Michael Brown', '555-456-7890', 'Rescue Worker', 'Active');
 INSERT INTO VolunteersFor 
 VALUES (4, 'David Wilson', '555-654-3210', 'Shelter Management', 'Completed');
 
