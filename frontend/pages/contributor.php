@@ -69,12 +69,23 @@ handleRequest();
 
 		<hr />
 
-		<h2> Highest Priority of Each Type (AGGREGATION WITH GROUP BY)</h2>
+		<h2> Highest Priority of Each Type (AGGREGATION with GROUP BY)</h2>
 		<form method = "POST" action = ""> 
 			<input type="submit" name="aggregateGroupByMission" value="Aggregate!">
 			</input><br>
 		</form>
 		
+
+		<hr />
+		<br />
+		<h2> Find Disasters Names with Total Help Needed Greater Than (AGGREGATION with HAVING): </h2>
+		<form method="POST" action="">
+			<label for="greaterThan"></label>
+			<input type="number" id="greaterThan" name="greaterThan" required> <br /><br />
+			<input type="submit" value="Submit"></p>
+
+		</form>
+
         <hr />
 		<br /><br />
 
