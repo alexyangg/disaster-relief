@@ -2,24 +2,6 @@
 include("connection.php");
 include("db_utils.php");
 
-// function handleResetRequest()
-// {
-//     global $db_conn;
-//     echo "<br> creating new disaster relief tables...<br>";
-//     executeSQLFile('../disasterrelief.sql');
-// }
-
-// function handleCountRequest()
-// {
-//     global $db_conn;
-
-//     $result = executePlainSQL("SELECT Count(*) FROM Disaster");
-
-//     if (($row = oci_fetch_row($result)) != false) {
-//         echo "<br> The number of tuples in Disaster: " . $row[0] . "<br>";
-//     }
-// }
-
 // TODO: modify the SELECT clause to include user-input params,
 // if user hasn't input any params, then select all (*)
 // SELECTION query
@@ -80,10 +62,6 @@ function handleMissionDisplayRequest()
 
 function printResult($result)
 {
-    // echo "<br>Retrieved data from table Disaster:<br>";
-    // echo "<script>
-    //     document.getElementById('disaster_results').innerHTML = '';
-    // </script>";
     echo "<table>";
     $first_row = true;
     while ($row = OCI_Fetch_Array($result, OCI_ASSOC)) {
@@ -198,34 +176,85 @@ function handleReliefCenterDonationDisplayRequest()
     echo "</table>";
 }
 
-function handleInsertRequest()
+function displayDisasterTuples() 
 {
     global $db_conn;
 
-    //Getting the values from user and insert data into the table
-    // $tuple = array(
-    //     ":bind1" => $_POST['insNo'],
-    //     ":bind2" => $_POST['insName']
-    // );
+    // $query = "SELECT * FROM Disaster WHERE 1=1";
+    // $params = [];
 
-    // $alltuples = array(
-    //     $tuple
-    // );
+    // $filters = [
+    //     "name" => "disasterName",
+    //     "disasterDate" => "disasterDate",
+    //     "location" => "disasterLocation",
+    //     "damageCost" => "damageCost",
+    //     "casualties" => "casualties",
+    //     "severityLevel" => "severityLevel",
+    //     "type" => "type"
+    // ];
 
-    // executeBoundSQL("insert into demoTable values (:bind1, :bind2)", $alltuples);
-    // oci_commit($db_conn);
+    // // might need to split up the queries because of date etc.
+    // foreach ($filters as $column => $param) {
+    //     if (!empty($_GET[$param])) {
+    //         $query .= " AND LOWER($column) LIKE LOWER(:$param)";
+    //         $params[$param] = "%" . $_GET[$param] . "%";
+    //     }
+    // }
+
+    // $result = oci_parse($db_conn, $query);
+    // foreach ($params as $param => $value) {
+    //     oci_bind_by_name($result, ":$param", $params[$param]);
+    // }
+    // echo getTableString($result, array("DISASTERNAME", "DISASTERLOCATION", "DISASTERDATE", "DAMAGECOST", "CASUALTIES", "SEVERITYLEVEL", "TYPE"));
+
+    // // oci_execute($result);
+
+    $query = executePlainSQL("SELECT * FROM Disaster");
+    echo getTableString($query, array("DISASTERNAME", "DISASTERLOCATION", "DISASTERDATE", "DAMAGECOST", "CASUALTIES", "SEVERITYLEVEL", "TYPE"));
+
 }
 
-function handleUpdateRequest()
+function handleReliefCenterMissionDisplayRequest()
 {
     global $db_conn;
 
-    // $old_name = $_POST['oldName'];
-    // $new_name = $_POST['newName'];
+    $missionType = strtolower($_GET['missionType']);
+    $query = "SELECT DISTINCT rc.name, rc.location, m.missionType, m.priority
+              FROM Mission m
+              JOIN ReliefCenter rc ON rc.name = m.rcName AND rc.location = m.rcLocation
+              WHERE LOWER(m.missionType) LIKE :missionType";
 
-    // you need the wrap the old name and new name values with single quotations
-    // executePlainSQL("UPDATE demoTable SET name='" . $new_name . "' WHERE name='" . $old_name . "'");
-    // oci_commit($db_conn);
+
+    $result = oci_parse($db_conn, $query);
+    oci_bind_by_name($result, ":missionType", $missionType);
+    oci_execute($result);
+
+    echo "<table border='1'><tr><th>Relief Center Name</th><th>Relief Center Location</th><th>Mission Type</th><th>Mission Priority</th></tr>";
+
+    // echo "<table border='1'><tr><th>Relief Center Name</th><th>Location</th><th>Total Donations</th></tr>";
+
+    while ($row = oci_fetch_assoc($result)) {
+        echo "<tr><td>" . $row["NAME"] . "</td>";
+        echo "<td>" . $row["LOCATION"] . "</td>";
+        echo "<td>" . $row["MISSIONTYPE"] . "</td>";
+        echo "<td>" . $row["PRIORITY"] . "</td></tr>";
+    }
+
+    echo "</table>";
+
+}
+
+function displayReliefCenterDonations()
+{
+    global $db_conn;
+
+    $amount = isset($_GET['donationAmount']) && is_numeric($_GET['donationAmount']) ? $_GET['donationAmount'] : PHP_INT_MAX;
+    $query = executePlainSQL("SELECT rcName, rcLocation, SUM(donationAmount) as total_donations
+              FROM Donation
+              GROUP BY rcName, rcLocation
+              HAVING SUM(donationAmount) < :amount");
+    echo getTableString($query, array("RCNAME", "RCLOCATION", "TOTAL_DONATIONS"));
+
 }
 
 // HANDLE ALL ROUTES
@@ -249,13 +278,18 @@ function handleRequest()
         } else if (array_key_exists('displayDisasterTuplesRequest', $_GET)) {
             echo "hit";
             handleDisasterDisplayRequest();
+            // displayDisasterTuples();
         } else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
         } else if (array_key_exists('displayDisasterReliefProgressRequest', $_GET)) {
             echo "hit";
             handleDisasterReliefProgressDisplayRequest();
         } else if (array_key_exists('displayReliefCenterDonationRequest', $_GET)) {
+            echo 'hit';
             handleReliefCenterDonationDisplayRequest();
+            // displayReliefCenterDonations();
+        } else if (array_key_exists('displayReliefCenterMissionRequest', $_GET)) {
+            handleReliefCenterMissionDisplayRequest();
         }
 
         disconnectFromDB();
