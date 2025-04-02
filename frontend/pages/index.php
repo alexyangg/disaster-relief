@@ -33,11 +33,12 @@
 					<label for=type>Disaster Type:</label>
 					<select id="type" name="type">
 						<option value="">Select a type:</option>
-						<option value="Flood">Flood</option>
 						<option value="Earthquake">Earthquake</option>
-						<option value="Tornado">Tornado</option>
 						<option value="Hurricane">Hurricane</option>
-						<option value="Fire">Fire</option>
+						<option value="Wildfire">Wildfire</option>
+						<option value="Tsunami">Tsunami</option>
+						<option value="Flood">Flood</option>
+						<option value="Tornado">Tornado</option>
 					</select>
 
 					
@@ -99,7 +100,7 @@
 		<div>
 			<h2>Discover which relief centers are assisting with a given mission (JOIN)</h2>
 			<form method="GET" action="">
-				<h4>Enter a Mission Type:</h4>
+				<h4>Enter a Mission Type (Rescue, Evacuation, Firefighting, Medical Aid, Reconstruction):</h4>
 				<input type="text" id="missionType" name="missionType" required>
 				<input type="hidden" id="displayReliefCenterMissionRequest" name="displayReliefCenterMissionRequest">
 				<input type="submit" name="displayReliefCenterMission" value="Search">
