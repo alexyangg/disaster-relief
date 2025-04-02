@@ -98,7 +98,6 @@
 			<input type="number" id="priority" name="priority"><br><br>
 
 			<!-- Why does this submit the "Find Relief Centers with less than " form?? -->
-			<a href="contributor.php"> <button type="button"> Contribute </button></a>
 	</div>
 
 	<div>
@@ -136,6 +135,10 @@
 			<input type="text" id="rcLocation" name="rcLocation"><br><br>
 			<input type="submit" value="Donate"></p>
 		</form> -->
+	</div>
+	<br><br><br>
+	<div>
+		<a href="contributor.php"> <button type="button"> Contribute </button></a>
 	</div>
 </body>
 </html>
