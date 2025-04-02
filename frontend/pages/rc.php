@@ -1,4 +1,4 @@
-<!-- <?php include "../components/navbar.php"; ?> -->
+<?php include "../components/navbar.php"; ?>
 <html>
 <head>
 	<title>Disaster Relief Project</title>
@@ -50,10 +50,12 @@ function disasterDropdown() {
 	return $dropdown;
 }
 
+$missingHelpResult = NULL;
+$missionTableResult = NULL;
+
 // every time a form is submitted, page is refreshed and code below is run
 // the type of request and form data is stored in global var $_POST 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	var_dump($_POST);
 	handleRequest();
 	// header("Location: ".$_SERVER['PHP_SELF']);
     // exit;
@@ -63,15 +65,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 	<div class="index_container">
 		<h1>Admin Page for <?php echo $rc_name; ?>, <?php echo $rc_location; ?></h2>
-		<h2>Initiate a Mission (INSERT)</h2>
-		<form method="POST" action="">
-			<input type="hidden" id="createMissionRequest" name="createMissionRequest">
-			<?php echo disasterDropDown();?> <br /><br />
-			<label for="priority">Mission Priority:</label><input type="range" id="priority" name="priority" min="1" max="10" value="5" step="1"><br /><br />
-			<label for="helpNeeded">Volunteers Needed:</label><input type="number" name="helpNeeded"> <br /><br />
-			<label for="missionType">Type of Mission:</label><input name="missionType"> <br /><br />
-			<input type="submit" value="Create Mission" name="insertSubmit"></p>
-		</form>
+		<div>
+			<h2>Initiate a Mission (INSERT)</h2>
+			<form method="POST" action="">
+				<input type="hidden" id="createMissionRequest" name="createMissionRequest">
+				<?php echo disasterDropDown();?> <br /><br />
+				<label for="priority">Mission Priority:</label><input type="range" id="priority" name="priority" min="1" max="10" value="5" step="1"><br /><br />
+				<label for="helpNeeded">Volunteers Needed:</label><input type="number" name="helpNeeded"> <br /><br />
+				<label for="missionType">Type of Mission:</label><input name="missionType"> <br /><br />
+				<input type="submit" value="Create Mission" name="insertSubmit"></p>
+			</form>
+			<?php echo $missionTableResult ?>
+		</div>
+		<hr/>
+		<div>
+			<h2>Query for Understaffed Missions (Nested Aggregation with GROUP BY)</h2>
+			<p>Finds missions that have less volunteers than the amount of help needed and shows the difference.</p>
+			<form method="post">
+				<input type="hidden" id="missingHelpQuery" name="missingHelpQuery">
+				<button type="submit" name="btnClick">Click Me!</button>
+			</form>
+			<?php echo $missingHelpResult ?>
+		</div>
 
 		<hr />
 
@@ -82,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		<hr />
 
-		<!-- TODO: merge update + send to one big UPDATE query-->
 		<h2>Update/Send Supplies (UPDATE)</h2>
 		<form method="POST" action="">
 			<input type="hidden" id="updateSupplyRequest" name="updateSupplyRequest">
