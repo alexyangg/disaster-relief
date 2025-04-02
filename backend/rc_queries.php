@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+//include("connection.php");
 include("db_utils.php");
 
 $rc_name = 'Red Cross Center NO';
