@@ -90,29 +90,34 @@ function connectToDB()
     }
 }
 
-function getTableString($result, $show_rows=NULL, $limit=1000)
+// Formats SQL query result into table
+// if $show_columns is NULL, all columns will be shown (otherwise only columns in $show_columns are shown)
+function getTableString($result, $show_columns=NULL, $limit=1000)
 {
     $output = "<table class='sql-result-table'>";
-    
     $first_row = true;
     $i = 0;
     while (($row = OCI_Fetch_Array($result, OCI_ASSOC)) && $i < $limit) {
         if ($first_row) {
-            $output .= "<tr>";
-            foreach ($row as $column_name => $value) {
-                if ($show_rows == NULL || in_array($column_name, $show_rows)) {
-                    $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+            if ($show_columns == NULL) {
+                $show_columns = array();
+                foreach ($row as $column_name => $value) {
+                    $show_columns[] = $column_name;
                 }
+            }
+
+            $output .= "<tr>";
+            foreach ($show_columns as $column_name) {
+                $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
             }
             $output .= "</tr>";
             $first_row = false;
         }
 
         $output .= "<tr>";
-        foreach ($row as $column_name => $value) {
-            if ($show_rows == NULL || in_array($column_name, $show_rows)) {
-                $output .= "<td>" . htmlspecialchars($value) . "</td>";
-            }
+        foreach ($show_columns as $column_name) {
+            $value = array_key_exists($column_name, $row) ? htmlspecialchars($row[$column_name]) : "----";
+            $output .= "<td>" . $value . "</td>";
         }
         $output .= "</tr>";
         $i++;

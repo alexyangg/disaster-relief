@@ -1,4 +1,4 @@
-<!-- <?php include "../components/navbar.php"; ?> -->
+<?php include "../components/navbar.php"; ?>
 <html>
 <head>
 	<title>Disaster Relief Project</title>
@@ -53,7 +53,6 @@ function disasterDropdown() {
 // every time a form is submitted, page is refreshed and code below is run
 // the type of request and form data is stored in global var $_POST 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	var_dump($_POST);
 	handleRequest();
 	// header("Location: ".$_SERVER['PHP_SELF']);
     // exit;
@@ -73,6 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<input type="submit" value="Create Mission" name="insertSubmit"></p>
 		</form>
 
+		<hr/>
+		<div>
+			<h2>Query for Understaffed Missions (Nested Aggregation with GROUP BY)</h2>
+			<p>Finds missions that have less volunteers than the amount of help needed and shows the difference.</p>
+			<form method="post">
+				<input type="hidden" id="missingHelpQuery" name="missingHelpQuery">
+				<button type="submit" name="btnClick">Click Me!</button>
+			</form>
+		</div>
+
 		<hr />
 
 		<div id="suppliesDisplay">
@@ -82,7 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		<hr />
 
-		<!-- TODO: merge update + send to one big UPDATE query-->
 		<h2>Update/Send Supplies (UPDATE)</h2>
 		<form method="POST" action="">
 			<input type="hidden" id="updateSupplyRequest" name="updateSupplyRequest">

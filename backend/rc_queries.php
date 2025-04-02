@@ -14,10 +14,33 @@ function handleRequest()
             handleCreateMissionRequest();
         } else if (array_key_exists('deleteSupplyRequest', $_POST)) {
             handleDeleteSupplyRequest();
+        } else if (array_key_exists('missingHelpQuery', $_POST)) {
+            handleMissingHelpQuery();
         }
 
         disconnectFromDB();
     }
+}
+
+function handleMissingHelpQuery() {
+    global $db_conn;
+    global $rc_name, $rc_location;
+
+    $query = "
+    SELECT m.missionID, m.helpNeeded - COUNT(DISTINCT vf.name || vf.phoneNUmber) AS helpStillNeeded
+    FROM VolunteersFor vf, Mission m
+    WHERE m.missionID = vf.missionID
+    GROUP BY m.missionID, m.helpNeeded
+    HAVING m.helpNeeded > (
+        SELECT COUNT(*) 
+        FROM VolunteersFor vf2
+        WHERE vf2.missionID = m.missionID
+    )
+    ";
+
+    $result = executePlainSQL($query);
+    echo getTableString($result);
+    oci_commit($db_conn);
 }
 
 function handleDeleteSupplyRequest() {
