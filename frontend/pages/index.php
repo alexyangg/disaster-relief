@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Disaster Relief Project</title>
-	<link rel="stylesheet" href="../styles/index.css"/>
+	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
 </head>
 <body>
 	<!-- TODO: only shows tuples from Disaster; no inserts or updates yet -->
@@ -94,52 +94,12 @@
 			<label for="priority">Priority</label>
 			<input type="number" id="priority" name="priority"><br><br>
 
-			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
-			<input type="submit" name="displayMissionTuples"></p>
-		</form>
-
-		<h2>Display Disaster Relief Progress</h2>
-		<form method="GET" action="">
-			<input type="hidden" id="displayDisasterReliefProgressRequest" name="displayDisasterReliefProgressRequest">
-			<input type="submit" name="displayDisasterReliefProgress"></p>
-		</form>
-
-	</div>
-	<div>
-		<h2 style="display: inline;">Find Relief Centers with less than </h2> 
-		<form method="GET" action="" id="donationForm" style="display: inline;">
-			<input type="number" id="donationAmount" name="donationAmount">
-			<input type="hidden" id="displayReliefCenterDonationRequest" name="displayReliefCenterDonationRequest">
-		</form>
-		<h2 style="display: inline;">in donations</h2>
-		<input type="submit" name="displayReliefCenterDonation" form="donationForm" value="Search"></p>
-		<h4>(leave input blank to see all relief centers)</h4>
-	</div>
-
-	<div>
-		<h2>Donate to help our cause!</h2>
-		<button onclick="window.location.href='donationPage.php'">Donate Here</button>
-		<!-- <form method="POST" action="donationPage">
-			<input type="hidden" id="donationRequest" name="donationRequest">
-			<label for="donorName">Donor Name:</label>
-			<input type="text" id="donorName" name="donorName"><br><br>
-
-			<label for="donationAmount">Donation Amount:</label>
-			<input type="number" id="donationAmount" name="donationAmount"><br><br>
-
-			<label for="rcName">Relief Center Name:</label>
-			<input type="text" id="rcName" name="rcName"><br><br>
-
-			<label for="rcLocation">Relief Center Location:</label>
-			<input type="text" id="rcLocation" name="rcLocation"><br><br>
-
-			<input type="submit" value="Donate"></p>
-		</form> -->
+		<a href="contributor.php"> <button> Contribute </button></a>
 	</div>
 </body>
 </html>
 <?php
-include("../../backend/main_page_queries.php");
+include("../../backend/backend.php");
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();

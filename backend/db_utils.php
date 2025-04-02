@@ -77,9 +77,7 @@ function connectToDB()
 
     // Your username is ora_(CWL_ID) and the password is a(student number). For example,
     // ora_platypus is the username and a12345678 is the password.
-    // $db_conn = oci_connect("ora_cwl", "a12345678", "dbhost.students.cs.ubc.ca:1522/stu");
-    // $db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
-    $db_conn = oci_connect("ora_axie08", "a17324963", "dbhost.students.cs.ubc.ca:1522/stu");
+    $db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
 
     if ($db_conn) {
         debugAlertMessage("Database is Connected");
@@ -92,11 +90,86 @@ function connectToDB()
     }
 }
 
+function getTableString($result, $show_rows=NULL, $limit=1000)
+{
+    $output = "<table class='sql-result-table'>";
+    
+    $first_row = true;
+    $i = 0;
+    while (($row = OCI_Fetch_Array($result, OCI_ASSOC)) && $i < $limit) {
+        if ($first_row) {
+            $output .= "<tr>";
+            foreach ($row as $column_name => $value) {
+                if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                    $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+                }
+            }
+            $output .= "</tr>";
+            $first_row = false;
+        }
+
+        $output .= "<tr>";
+        foreach ($row as $column_name => $value) {
+            if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                $output .= "<td>" . htmlspecialchars($value) . "</td>";
+            }
+        }
+        $output .= "</tr>";
+        $i++;
+    }
+    $output .= "</table>";
+
+    return $output;
+}
+
+function executeSQLFile($path) {
+    global $db_conn;
+    
+    $sqlContent = file_get_contents(__DIR__ . '/' . $path);
+    if ($sqlContent === false) {
+        echo "Error reading the SQL file." . error_get_last()['message'];
+    }
+
+    foreach (explode(';', $sqlContent) as $sqlCommand) {
+        $sqlCommand = trim($sqlCommand);
+        if (empty($sqlCommand)) {
+            continue;
+        }
+
+        executePlainSQL($sqlCommand, $db_conn);
+    }
+    oci_commit($db_conn);
+}
+
 function disconnectFromDB()
 {
     global $db_conn;
 
-    debugAlertMessage("Disconnect from Database");
-    oci_close($db_conn);
+    if ($db_conn) {
+        debugAlertMessage("Disconnecting from the Database");
+        try {
+            oci_close($db_conn);
+            $db_conn = null;
+        } catch (Exception $e) {
+            debugAlertMessage("Error closing database connection: " . $e->getMessage());
+        }
+    } else {
+        debugAlertMessage("Database connection is already closed or not initialized.");
+    }
+
+}
+
+function validateDate($date, $format = 'Y-m-d') {
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
+
+// WILL DO FOR NOW!!
+function generateID() {
+    return hexdec(substr(hash('sha256', time()), 0, 16));
+}
+
+function console_error($message) {
+    echo "<script>console.error('". addslashes($message) ."');</script>";
 }
 ?>
