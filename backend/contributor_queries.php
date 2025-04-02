@@ -11,8 +11,26 @@ function handleRequest()
             projectMission();
         } else if (array_key_exists('aggregateGroupByMission', $_POST)) {
             aggregateGroupByMission();
+        } else if (array_key_exists('greaterThan', $_POST)) {
+            aggregateGreaterThan();
         }
 
+        disconnectFromDB();
+    }
+}
+
+function aggregateGreaterThan() {
+    if (connectToDB()) {
+        global $db_conn;
+        $value = 0;
+        if (isset($_POST['greaterThan']) && is_numeric($_POST['greaterThan'])) {
+            $value = $_POST['greaterThan']; 
+        } else {
+            echo "No value was submitted.";
+        }    
+        $query = "SELECT disasterName, SUM(helpNeeded) AS totalHelp FROM Mission GROUP BY disasterName HAVING SUM(helpNeeded) > {$value} ORDER BY SUM(helpNeeded) DESC";
+        $result = executePlainSQL($query);
+        echo getTableString($result);
         disconnectFromDB();
     }
 }
@@ -23,7 +41,6 @@ function handleMissionDisplayRequest()
     if (connectToDB()) {
         global $db_conn;
         $result = executePlainSQL("SELECT * FROM Mission");
-        // printResult($result);
         echo getTableString($result);
         disconnectFromDB();
     }
