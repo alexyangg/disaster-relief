@@ -1,39 +1,39 @@
 <?php
 include("connection.php");
 include("db_utils.php");
-// fix the issue on why mission tuples are not displayed
 
 function handleRequest()
 {
     if (connectToDB()) {
         if (array_key_exists('resetTablesRequest', $_POST)) {
             handleResetRequest();
-        } else if (array_key_exists('updateQueryRequest', $_POST)) {
-            handleUpdateRequest();
-        }  else if (array_key_exists('displayMissionTuples', $_GET)) {
-            handleMissionDisplayRequest();
-        }  else if (array_key_exists('checkboxes', $_POST)) {
+        } else if (array_key_exists('checkboxes', $_POST)) {
             projectMission();
+        } else if (array_key_exists('aggregateGroupByMission', $_POST)) {
+            aggregateGroupByMission();
+        } else if (array_key_exists('greaterThan', $_POST)) {
+            aggregateGreaterThan();
         }
 
         disconnectFromDB();
     }
 }
 
-// function getLocationOptions() {
-//     $locations = array();
-//     if (connectToDB()) {
-//         global $db_conn;
-
-//         $query = "SELECT DISTINCT disasterLocation FROM Mission";
-//         $result = executePlainSQL($query);
-//         oci_fetch_all($result, $locations, 0, -1, OCI_ASSOC);
-
-//         disconnectFromDB();
-//     }
-
-//     return $locations;
-// }
+function aggregateGreaterThan() {
+    if (connectToDB()) {
+        global $db_conn;
+        $value = 0;
+        if (isset($_POST['greaterThan']) && is_numeric($_POST['greaterThan'])) {
+            $value = $_POST['greaterThan']; 
+        } else {
+            echo "No value was submitted.";
+        }    
+        $query = "SELECT disasterName, SUM(helpNeeded) AS totalHelp FROM Mission GROUP BY disasterName HAVING SUM(helpNeeded) > {$value} ORDER BY SUM(helpNeeded) DESC";
+        $result = executePlainSQL($query);
+        echo getTableString($result);
+        disconnectFromDB();
+    }
+}
 
 
 function handleMissionDisplayRequest()
@@ -41,7 +41,6 @@ function handleMissionDisplayRequest()
     if (connectToDB()) {
         global $db_conn;
         $result = executePlainSQL("SELECT * FROM Mission");
-        // printResult($result);
         echo getTableString($result);
         disconnectFromDB();
     }
@@ -66,6 +65,15 @@ function projectMission() {
             echo "No checkboxes selected.";
         }
         $result = executePlainSQL($query);
+        echo getTableString($result);
+        disconnectFromDB();
+    }
+}
+
+function aggregateGroupByMission() {
+    if (connectToDB()) {
+        global $db_conn;
+        $result = executePlainSQL("SELECT MissionType, MAX(Priority) FROM Mission GROUP BY MissionType");
         echo getTableString($result);
         disconnectFromDB();
     }

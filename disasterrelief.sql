@@ -213,6 +213,22 @@ INSERT INTO Mission
 VALUES (4, 'Medical Aid', TO_DATE('2004-12-27', 'YYYY-MM-DD'), 3, 'Tsunami Indian Ocean', TO_DATE('2004-12-26', 'YYYY-MM-DD'), 'Indonesia', 'Disaster Aid Indonesia', 'Jakarta, Indonesia', 8);
 INSERT INTO Mission 
 VALUES (5, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 103, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 6);
+INSERT INTO Mission 
+VALUES (6, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 5000, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 9);
+INSERT INTO Mission 
+VALUES (7, 'Rescue', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 5000, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 4);
+INSERT INTO Mission 
+VALUES (8, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 10000, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 10);
+INSERT INTO Mission 
+VALUES (9, 'Firefighting', TO_DATE('2020-09-02', 'YYYY-MM-DD'), 2000, 'California Wildfires', TO_DATE('2020-09-01', 'YYYY-MM-DD'), 'California, USA', 'Fire Relief CA', 'Los Angeles, CA', 8);
+INSERT INTO Mission
+VALUES (10, 'Firefighting', TO_DATE('2020-09-02', 'YYYY-MM-DD'), 2000, 'California Wildfires', TO_DATE('2020-09-01', 'YYYY-MM-DD'), 'California, USA', 'Fire Relief CA', 'Los Angeles, CA', 4);
+INSERT INTO Mission 
+VALUES (11, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 7);
+INSERT INTO Mission 
+VALUES (12, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 2);
+INSERT INTO Mission 
+VALUES (13, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 10000, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 9);
 
 INSERT INTO Shelter 
 VALUES ('NO Shelter 1', 'New Orleans, LA', 1000, 950, 'Red Cross Center NO', 'New Orleans, LA');
