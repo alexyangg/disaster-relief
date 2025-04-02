@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Disaster Relief Project</title>
+	<!-- <link rel="stylesheet" href="../styles/global.css" type="text/css"/> -->
 	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
 </head>
 <br /> <br /> <br />
@@ -10,21 +11,6 @@ include("../../backend/contributor_queries.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 handleMissionDisplayRequest();
-
-// function LocationsDropDown() {
-// 	$locations = getLocationOptions();
-// 	$dropdown = '<label for="Locations">Select Location:</label><select name="location">';
-	
-// 	for ($i = 0; $i < count($locations['DISASTERLOCATION']); $i++) {
-// 		$disasterLocation = $locations['DISASTERLOCATION'][$i];
-// 		$dropdown .= '<option value="' . htmlspecialchars($disasterLocation) . '">' . htmlspecialchars($disasterLocation) . '</option>';
-// 	}
-// 	$dropdown .= '</select>';
-// 	return $dropdown;
-// }
-// echo LocationsDropDown();
-
-
 
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
@@ -45,27 +31,9 @@ handleRequest();
 			<p><input type="submit" value="Reset" name="reset"></p>
 		</form>
 
-
 		<hr />
 
-
-		<!-- <h2>Display Tuples in Missons</h2>
-		<form method="GET" action="">
-			<input type="hidden" id="displayMissionTuplesRequest" name="displayMissionTuplesRequest">
-			<input type="submit" name="displayMissionTuples"></p>
-		</form> -->
-
-		<!-- <h2>Filter Missions by</h2>
-		<form method="GET" action="">
-			<input type="hidden" id="filterMissionRequest" name="filterMissionRequest">
-			<?php //echo LocationsDropDown();?> <br /><br />
-			<label for="Help">Quantity:</label><input type="number" name="quantity"> <br /><br />
-			<label for="quality">Quality:</label><input type="text" name="quality"> <br /><br />
-			<label for="expDate">Expiration Date:</label><input type="text" name="expDate"> <br /><br />
-			<input type="submit" value="Filter" name="insertSubmit"></p>
-		</form> -->
-		<!--MISSIONID	MISSIONTYPE	DATEPOSTED	HELPNEEDED	DISASTERNAME	DISASTERDATE	DISASTERLOCATION	RCNAME	RCLOCATION	PRIORITY -->
-		<h2>Compare Missions by</h2>
+		<h2>Compare Missions by (PROJECTION)</h2>
 		<form method="POST" action="">
 			<label>
 				<input type="checkbox" name="checkboxes[]" value="MissionID"> Mission ID
@@ -100,6 +68,13 @@ handleRequest();
 			<input type="submit" value="Submit">
 		</form>
 
+		<hr />
+
+		<h2> Highest Priority of Each Type (AGGREGATION WITH GROUP BY )</h2>
+		<form method = "POST" action = ""> 
+			<input type="submit" name="aggregateGroupByMission" value="Aggregate!">
+			</input><br>
+		</form>
 		
         <hr />
 		<br /><br />
