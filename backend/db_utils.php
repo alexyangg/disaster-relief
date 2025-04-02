@@ -77,7 +77,6 @@ function connectToDB()
 
     // Your username is ora_(CWL_ID) and the password is a(student number). For example,
     // ora_platypus is the username and a12345678 is the password.
-    
     $db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
 
     if ($db_conn) {
@@ -91,34 +90,29 @@ function connectToDB()
     }
 }
 
-// Formats SQL query result into table
-// if $show_columns is NULL, all columns will be shown (otherwise only columns in $show_columns are shown)
-function getTableString($result, $show_columns=NULL, $limit=1000)
+function getTableString($result, $show_rows=NULL, $limit=1000)
 {
     $output = "<table class='sql-result-table'>";
+    
     $first_row = true;
     $i = 0;
     while (($row = OCI_Fetch_Array($result, OCI_ASSOC)) && $i < $limit) {
         if ($first_row) {
-            if ($show_columns == NULL) {
-                $show_columns = array();
-                foreach ($row as $column_name => $value) {
-                    $show_columns[] = $column_name;
-                }
-            }
-
             $output .= "<tr>";
-            foreach ($show_columns as $column_name) {
-                $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+            foreach ($row as $column_name => $value) {
+                if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                    $output .= "<th>" . htmlspecialchars($column_name) . "</th>";
+                }
             }
             $output .= "</tr>";
             $first_row = false;
         }
 
         $output .= "<tr>";
-        foreach ($show_columns as $column_name) {
-            $value = array_key_exists($column_name, $row) ? htmlspecialchars($row[$column_name]) : "----";
-            $output .= "<td>" . $value . "</td>";
+        foreach ($row as $column_name => $value) {
+            if ($show_rows == NULL || in_array($column_name, $show_rows)) {
+                $output .= "<td>" . htmlspecialchars($value) . "</td>";
+            }
         }
         $output .= "</tr>";
         $i++;
@@ -130,6 +124,7 @@ function getTableString($result, $show_columns=NULL, $limit=1000)
 
 function executeSQLFile($path) {
     global $db_conn;
+    
     $sqlContent = file_get_contents(__DIR__ . '/' . $path);
     if ($sqlContent === false) {
         echo "Error reading the SQL file." . error_get_last()['message'];
@@ -176,16 +171,5 @@ function generateID() {
 
 function console_error($message) {
     echo "<script>console.error('". addslashes($message) ."');</script>";
-}
-
-if (array_key_exists('resetTablesRequest', $_POST)) {
-    global $db_conn;
-
-    if (connectToDB()) {   
-        echo "<br> creating new disaster relief tables...<br>";
-        executeSQLFile('../disasterrelief.sql');
-
-        disconnectFromDB();
-    }
 }
 ?>

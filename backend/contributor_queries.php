@@ -13,10 +13,37 @@ function handleRequest()
             aggregateGroupByMission();
         } else if (array_key_exists('greaterThan', $_POST)) {
             aggregateGreaterThan();
+        } else if (array_key_exists('divisionMission', $_POST)) {
+            divisionMission();
         }
 
         disconnectFromDB();
     }
+}
+
+function divisionMission() {
+    if (connectToDB()) {
+        global $db_conn;
+        $query = "SELECT DISTINCT D.name, D.disasterDate, D.location
+                    FROM Disaster D
+                    WHERE NOT EXISTS (
+                        SELECT M.missionType
+                        FROM Mission M
+                        WHERE NOT EXISTS (
+                            SELECT *
+                            FROM Mission M2
+                            WHERE M2.disasterName = D.name
+                            AND M2.disasterDate = D.disasterDate
+                            AND M2.disasterLocation = D.location
+                            AND M2.missionType = M.missionType
+                        )
+                    )";
+        $result = executePlainSQL($query);
+        echo getTableString($result);
+        disconnectFromDB();
+    }
+
+
 }
 
 function aggregateGreaterThan() {

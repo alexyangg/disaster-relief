@@ -229,6 +229,16 @@ INSERT INTO Mission
 VALUES (12, 'Reconstruction', TO_DATE('2010-01-13', 'YYYY-MM-DD'), 3000, 'Haiti Earthquake', TO_DATE('2010-01-12', 'YYYY-MM-DD'), 'Port-au-Prince, Haiti', 'Haiti Relief Center', 'Port-au-Prince, Haiti', 2);
 INSERT INTO Mission 
 VALUES (13, 'Evacuation', TO_DATE('2011-03-12', 'YYYY-MM-DD'), 10000, 'Fukushima Earthquake', TO_DATE('2011-03-11', 'YYYY-MM-DD'), 'Fukushima, Japan', 'Red Cross Fukushima', 'Fukushima, Japan', 9);
+INSERT INTO Mission 
+VALUES (14, 'Evacuation', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+INSERT INTO Mission 
+VALUES (15, 'Firefighting', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+INSERT INTO Mission 
+VALUES (16, 'Medical Aid', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+INSERT INTO Mission 
+VALUES (17, 'Reconstruction', TO_DATE('2005-08-30', 'YYYY-MM-DD'), 50, 'Hurricane Katrina', TO_DATE('2005-08-29', 'YYYY-MM-DD'), 'New Orleans, LA', 'Red Cross Center NO', 'New Orleans, LA', 10);
+
+
 
 INSERT INTO Shelter 
 VALUES ('NO Shelter 1', 'New Orleans, LA', 1000, 950, 'Red Cross Center NO', 'New Orleans, LA');
