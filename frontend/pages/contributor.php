@@ -2,8 +2,7 @@
 <html>
 <head>
 	<title>Disaster Relief Project</title>
-	<!-- <link rel="stylesheet" href="../styles/global.css" type="text/css"/> -->
-	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
+	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
 </head>
 <br /> <br /> <br />
 <?php
@@ -70,7 +69,7 @@ handleRequest();
 
 		<hr />
 
-		<h2> Highest Priority of Each Type (AGGREGATION WITH GROUP BY )</h2>
+		<h2> Highest Priority of Each Type (AGGREGATION WITH GROUP BY)</h2>
 		<form method = "POST" action = ""> 
 			<input type="submit" name="aggregateGroupByMission" value="Aggregate!">
 			</input><br>

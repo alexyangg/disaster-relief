@@ -1,7 +1,6 @@
 <?php
 include("connection.php");
 include("db_utils.php");
-// fix the issue on why mission tuples are not displayed
 
 function handleRequest()
 {
