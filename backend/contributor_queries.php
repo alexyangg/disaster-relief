@@ -8,10 +8,6 @@ function handleRequest()
     if (connectToDB()) {
         if (array_key_exists('resetTablesRequest', $_POST)) {
             handleResetRequest();
-        } else if (array_key_exists('updateQueryRequest', $_POST)) {
-            handleUpdateRequest();
-        } else if (array_key_exists('displayMissionTuples', $_GET)) {
-            handleMissionDisplayRequest();
         } else if (array_key_exists('checkboxes', $_POST)) {
             projectMission();
         } else if (array_key_exists('aggregateGroupByMission', $_POST)) {
