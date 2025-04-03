@@ -64,6 +64,7 @@ handleRequest();
 			<label>
 				<input type="checkbox" name="checkboxes[]" value="Priority"> Priority
 			</label><br>
+			<br>
 			<input type="submit" value="Submit">
 		</form>
 

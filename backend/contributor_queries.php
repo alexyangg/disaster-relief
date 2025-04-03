@@ -51,9 +51,11 @@ function aggregateGreaterThan() {
         global $db_conn;
         $value = 0;
         if (isset($_POST['greaterThan']) && is_numeric($_POST['greaterThan'])) {
-            $value = $_POST['greaterThan']; 
+            $value = intval($_POST['greaterThan']); 
         } else {
             echo "No value was submitted.";
+            disconnectFromDB();
+            return;
         }    
         $query = "SELECT disasterName, SUM(helpNeeded) AS totalHelp FROM Mission GROUP BY disasterName HAVING SUM(helpNeeded) > {$value} ORDER BY SUM(helpNeeded) DESC";
         $result = executePlainSQL($query);
@@ -78,18 +80,23 @@ function projectMission() {
 
     if (connectToDB()) {
         global $db_conn;
-        $query = "SELECT ";
+        $validColumns = ['MissionID', 'MissionType', 'DatePosted', 'HelpNeeded', 'DisasterName', 'DisasterDate', 'DisasterLocation', 'RCName', 'RCLocation', 'Priority'];
+        $query = "SELECT DISTINCT";
         if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
             // Loop through all selected checkbox values
             foreach ($_POST['checkboxes'] as $checkbox) {
+                if (in_array($checkbox, $validColumns)) {
                 // adds to select query
                 $query .= " " . $checkbox . ",";
+                }
             }
             // gets rid of leading ","
             $query = substr($query,0,-1);
             $query .= " FROM Mission";
         } else {
             echo "No checkboxes selected.";
+            disconnectFromDB();
+            return;
         }
         $result = executePlainSQL($query);
         echo getTableString($result);
