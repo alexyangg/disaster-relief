@@ -5,12 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/donationPage.css" type="text/css"/>
+    <link rel="stylesheet" href="../styles/global.css" type="text/css"/>
     <title>Donation Page</title>
 </head>
 <body>
-
-    <div class="donation_container">
+    <div class="index_container">
         <form method="POST" action="">
 			<input type="hidden" id="donationRequest" name="donationRequest">
 			<label for="donorName">Name:</label>

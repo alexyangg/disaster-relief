@@ -48,41 +48,37 @@ function handleDeleteSupplyRequest() {
     global $db_conn;
     global $rc_name, $rc_location;
 
-    $supplyID = $_POST['supply'];
-    $removeAmount = $_POST['removeAmount'];
-    if ($removeAmount <= 0) {
+    if ($_POST['removeAmount']) {
         echo "<script>alert('Must remove a positive amount');</script>";
         return;
     }
 
-    $updateQuery = "UPDATE Supplies SET quantity=quantity-{$removeAmount} WHERE supplyID='{$supplyID}'";
-    $result = executePlainSQL($updateQuery);
-
-    $getQuantityQuery = "SELECT quantity FROM Supplies WHERE supplyID='{$supplyID}'";
-    if (oci_fetch_assoc(executePlainSQL($getQuantityQuery))["QUANTITY"] <= 0) {
-        $deleteQuery = "DELETE FROM Supplies WHERE supplyID='{$supplyID}'";
-        executePlainSQL($deleteQuery);
-    }
-
-    oci_commit($db_conn);
+    deleteSupply($_POST['supply'], $_POST['removeAmount'])
 }
 
 function handleCreateMissionRequest() {
     global $db_conn, $missionTableResult;
     global $rc_name, $rc_location;
 
-    $missionID = generateID();
+    $cmdStrInsert = "INSERT INTO Mission VALUES (:missionID, 
+        :missionType, SYSDATE, :helpNeeded, 
+        :name, :disasterDate, :location, 
+        :rc_name, :rc_location, :priority)";
+
     list($name, $location, $disasterDate) = explode("@", $_POST['disaster']);
-    $helpNeeded = $_POST['helpNeeded'];
-    $missionType = $_POST['missionType'];
-    $priority = $_POST['priority'];
-
-    $query = "INSERT INTO Mission VALUES ({$missionID}, 
-        '{$missionType}', SYSDATE, {$helpNeeded}, '{$name}', 
-        '{$disasterDate}', '{$location}', 
-        '{$rc_name}', '{$rc_location}', '{$priority}')";
-
-    executePlainSQL($query);
+    $listInsert = [[
+            ":missionID" => generateID(),
+            ":missionType" => $_POST['missionType'],
+            ":helpNeeded" => $_POST['helpNeeded'], // Typo fix: ":helpedNeeded" → ":helpNeeded"
+            ":name" => $name,
+            ":disasterDate" => $disasterDate,
+            ":location" => $location,
+            ":rc_name" => $rc_name,
+            ":rc_location" => $rc_location,
+            ":priority" => $_POST['priority']
+    ]];
+    
+    executeBoundSQL($cmdStrInsert, $listInsert);
 
     $result = executePlainSQL("SELECT * FROM Mission");
     $missionTableResult = getTableString($result);
@@ -100,14 +96,30 @@ function handleUpdateSupplyRequest() {
     $expDate = $_POST['expDate'];
 
     $updates = [];
-    if ($supplyName !== "") $updates[] = "supplyName='{$supplyName}'";
-    if ($quantity !== "") $updates[] = "quantity=quantity+{$quantity}";
-    if ($quality !== "") $updates[] = "quality='{$quality}'";
-    if ($expDate !== "") $updates[] = "expirationDate=TO_DATE('{$expDate}', 'YYYY-MM-DD')";
+    $bindings = [];
+
+    if ($supplyName !== "") {
+        $updates[] = "supplyName = :supplyName";
+        $bindings[":supplyName"] = $supplyName;
+    }
+    if ($quantity !== "") {
+        $updates[] = "quantity = quantity + :quantity";
+        $bindings[":quantity"] = $quantity;
+    }
+    if ($quality !== "") {
+        $updates[] = "quality = :quality";
+        $bindings[":quality"] = $quality;
+    }
+    if ($expDate !== "") {
+        $updates[] = "expirationDate = TO_DATE(:expDate, 'YYYY-MM-DD')";
+        $bindings[":expDate"] = $expDate;
+    }
 
     if (!empty($updates)) {
-        $query = "UPDATE Supplies SET " . implode(", ", $updates) . " WHERE supplyID='{$supplyID}'";
-        executePlainSQL($query);
+        $query = "UPDATE Supplies SET " . implode(", ", $updates) . " WHERE supplyID = :supplyID";
+        $bindings[":supplyID"] = $supplyID;
+
+        executeBoundSQL($query, [$bindings]); // Pass bindings inside an array
         oci_commit($db_conn);
     }
 
@@ -123,16 +135,15 @@ function sendSupplyRequest() {
     $supplyID = $_POST['supply'];
     list($shelterName, $shelterLocation) = explode("@", $_POST['shelter']);
     $sendAmount = $_POST['sendAmount'];
-
+    
     if ($sendAmount <= 0) {
-        echo "<script>alert('Amount to Sent Must Be a Postive Number!');</script>";
+        echo "<script>alert('Amount to Send Must Be a Positive Number!');</script>";
         return;
     }
 
     $getQuery = "SELECT * FROM Supplies WHERE supplyID='{$supplyID}'";
     $result = executePlainSQL($getQuery);
     $supply = oci_fetch_row($result);
-
     if ($sendAmount > $supply[2]) {
         echo "<script>alert('Not enough supplies to send');</script>";
         return;
@@ -143,9 +154,11 @@ function sendSupplyRequest() {
         return;
     }
 
+    // Only send amount needs to be sanitized
+    $listSend = [[":sendAmount" => $sendAmount]];
+
     // remove supply from shelter being sent from
-    $removeQuery = "UPDATE Supplies SET quantity=quantity-{$sendAmount} WHERE supplyID={$supplyID}";
-    executePlainSQL($removeQuery);
+    deleteSupply($supplyID, $sendAmount);
     
     // send supply to new shelter; 
     // if supply is already there we just update it, otherwise we add a new supply
@@ -155,15 +168,15 @@ function sendSupplyRequest() {
     $row = oci_fetch_assoc(executePlainSQL($checkQuery));
     if ($row) {
         $existingSupplyID = $row['SUPPLYID'];
-        $updateQuery = "UPDATE Supplies SET quantity = quantity + {$sendAmount} 
+        $updateQuery = "UPDATE Supplies SET quantity = quantity + :sendAmount
                         WHERE supplyID = {$existingSupplyID}";
-        executePlainSQL($updateQuery);
+        executeBoundSQL($updateQuery, $listSend);
     } else {
         $gen_id = generateID();
         $insertQuery = "INSERT INTO Supplies VALUES ({$gen_id}, '{$supply[1]}', 
-            {$sendAmount}, '{$supply[3]}', '{$shelterName}', '{$shelterLocation}', 
+            :sendAmount, '{$supply[3]}', '{$shelterName}', '{$shelterLocation}', 
             '{$supply[6]}', '{$supply[7]}', '{$supply[8]}')";
-        executePlainSQL($insertQuery);
+        executeBoundSQL($insertQuery, $listSend);
     }
 
     oci_commit($db_conn);
@@ -230,5 +243,23 @@ function getDisasterOptions() {
     }
 
     return $disasters;
+}
+
+function deleteSupply($supplyID, $removeAmount) {
+    global $db_conn;
+    global $rc_name, $rc_location;
+
+    $cmdStrDelete = "UPDATE Supplies SET quantity=quantity-:removeAmount WHERE supplyID=:supplyID";
+    $listDelete = [ [":removeAmount" => $removeAmount, ":supplyID" => $supplyID] ];
+    executeBoundSQL($cmdStrDelete, $listDelete);
+
+    // supplyID comes from dropdown (which comes directly from our DB), so no need to sanitize
+    $getQuantityQuery = "SELECT quantity FROM Supplies WHERE supplyID='{$supplyID}'";
+    if (oci_fetch_assoc(executePlainSQL($getQuantityQuery))["QUANTITY"] <= 0) {
+        $deleteQuery = "DELETE FROM Supplies WHERE supplyID='{$supplyID}'";
+        executePlainSQL($deleteQuery);
+    }
+
+    oci_commit($db_conn);
 }
 ?>

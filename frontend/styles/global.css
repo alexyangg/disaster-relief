@@ -85,3 +85,8 @@ input::placeholder, textarea::placeholder {
     height: 1em;
     vertical-align: middle;
 }
+
+.index_container {
+    padding-top: 11%;
+}
+
