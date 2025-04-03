@@ -109,7 +109,7 @@ handleRequest();
 			<h2>Discover which relief centers are assisting with a given mission (JOIN)</h2>
 			<form method="GET" action="">
 				<h4>Enter a Mission Type (Rescue, Evacuation, Firefighting, Medical Aid, Reconstruction):</h4>
-				<input type="text" id="missionID" name="missionID" required>
+				<input type="text" id="missionType" name="missionType" required>
 				<input type="hidden" id="displayReliefCenterMissionRequest" name="displayReliefCenterMissionRequest">
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
