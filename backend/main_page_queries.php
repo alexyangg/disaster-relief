@@ -6,7 +6,7 @@ include("db_utils.php");
 // SELECTION query
 function handleDisasterDisplayRequest()
 {
-    global $db_conn;
+    global $db_conn, $disasterTableResult;
 
     $query = "SELECT * FROM Disaster WHERE 1=1";
     $params = [];
@@ -44,7 +44,8 @@ function handleDisasterDisplayRequest()
     }
 
     oci_execute($result);
-    printResult($result);
+    $disasterTableResult = getTableString($result);
+    // printResult($result);
 }
 
 // TODO: modify the SELECT clause to include user-input params,
@@ -184,73 +185,9 @@ function handleDisasterReliefProgressDisplayRequest()
 
 }
 
-// aggregation with HAVING
-function handleReliefCenterDonationDisplayRequest() 
-{
-    global $db_conn;
-
-    $amount = isset($_GET['donationAmount']) && is_numeric($_GET['donationAmount']) ? $_GET['donationAmount'] : PHP_INT_MAX;
-    $query = "SELECT rcName, rcLocation, SUM(donationAmount) as total_donations
-              FROM Donation
-              GROUP BY rcName, rcLocation
-              HAVING SUM(donationAmount) < :amount";
-
-    $result = oci_parse($db_conn, $query);
-    oci_bind_by_name($result, ":amount", $amount);
-    oci_execute($result);
-
-    echo "<table border='1'><tr><th>Relief Center Name</th><th>Location</th><th>Total Donations</th></tr>";
-
-    while ($row = oci_fetch_assoc($result)) {
-        echo "<tr><td>" . $row["RCNAME"] . "</td>";
-        echo "<td>" . $row["RCLOCATION"] . "</td>";
-        echo "<td>" . $row["TOTAL_DONATIONS"] . "</td></tr>";
-    }
-
-    echo "</table>";
-}
-
-function displayDisasterTuples() 
-{
-    global $db_conn;
-
-    // $query = "SELECT * FROM Disaster WHERE 1=1";
-    // $params = [];
-
-    // $filters = [
-    //     "name" => "disasterName",
-    //     "disasterDate" => "disasterDate",
-    //     "location" => "disasterLocation",
-    //     "damageCost" => "damageCost",
-    //     "casualties" => "casualties",
-    //     "severityLevel" => "severityLevel",
-    //     "type" => "type"
-    // ];
-
-    // // might need to split up the queries because of date etc.
-    // foreach ($filters as $column => $param) {
-    //     if (!empty($_GET[$param])) {
-    //         $query .= " AND LOWER($column) LIKE LOWER(:$param)";
-    //         $params[$param] = "%" . $_GET[$param] . "%";
-    //     }
-    // }
-
-    // $result = oci_parse($db_conn, $query);
-    // foreach ($params as $param => $value) {
-    //     oci_bind_by_name($result, ":$param", $params[$param]);
-    // }
-    // echo getTableString($result, array("DISASTERNAME", "DISASTERLOCATION", "DISASTERDATE", "DAMAGECOST", "CASUALTIES", "SEVERITYLEVEL", "TYPE"));
-
-    // // oci_execute($result);
-
-    $query = executePlainSQL("SELECT * FROM Disaster");
-    echo getTableString($query, array("DISASTERNAME", "DISASTERLOCATION", "DISASTERDATE", "DAMAGECOST", "CASUALTIES", "SEVERITYLEVEL", "TYPE"));
-
-}
-
 function handleReliefCenterMissionDisplayRequest()
 {
-    global $db_conn;
+    global $db_conn, $reliefCenterMissionTableResult;
 
     $missionType = strtolower($_GET['missionType']);
     $query = "SELECT DISTINCT rc.name, rc.location, m.missionType, m.priority, m.datePosted
@@ -262,21 +199,34 @@ function handleReliefCenterMissionDisplayRequest()
     $result = oci_parse($db_conn, $query);
     oci_bind_by_name($result, ":missionType", $missionType);
     oci_execute($result);
+    $reliefCenterMissionTableResult = getTableString($result, array("NAME", "LOCATION", "MISSIONTYPE", "PRIORITY", "DATEPOSTED"));
+}
 
-    echo "<table border='1'><tr><th>Relief Center Name</th><th>Relief Center Location</th><th>Mission Type</th><th>Mission Priority</th><th>Date Posted</th></tr>";
+// aggregation with HAVING
+function handleReliefCenterDonationDisplayRequest() 
+{
+    global $db_conn, $reliefCenterDonationTableResult;
+
+    $amount = isset($_GET['donationAmount']) && is_numeric($_GET['donationAmount']) ? $_GET['donationAmount'] : PHP_INT_MAX;
+    $query = "SELECT rcName, rcLocation, SUM(donationAmount) as total_donations
+              FROM Donation
+              GROUP BY rcName, rcLocation
+              HAVING SUM(donationAmount) < :amount";
+
+    $result = oci_parse($db_conn, $query);
+    oci_bind_by_name($result, ":amount", $amount);
+    oci_execute($result);
 
     // echo "<table border='1'><tr><th>Relief Center Name</th><th>Location</th><th>Total Donations</th></tr>";
 
-    while ($row = oci_fetch_assoc($result)) {
-        echo "<tr><td>" . $row["NAME"] . "</td>";
-        echo "<td>" . $row["LOCATION"] . "</td>";
-        echo "<td>" . $row["MISSIONTYPE"] . "</td>";
-        echo "<td>" . $row["PRIORITY"] . "</td>";
-        echo "<td>" . $row["DATEPOSTED"] . "</td></tr>";
-    }
+    // while ($row = oci_fetch_assoc($result)) {
+    //     echo "<tr><td>" . $row["RCNAME"] . "</td>";
+    //     echo "<td>" . $row["RCLOCATION"] . "</td>";
+    //     echo "<td>" . $row["TOTAL_DONATIONS"] . "</td></tr>";
+    // }
 
-    echo "</table>";
-
+    // echo "</table>";
+    $reliefCenterDonationTableResult = getTableString($result, array("RCNAME", "RCLOCATION", "TOTAL_DONATIONS"));
 }
 
 function displayReliefCenterDonations()

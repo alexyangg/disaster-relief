@@ -4,6 +4,9 @@ ini_set('display_errors', 1);
 include("../../backend/main_page_queries.php");
 
 $missionTableResult = NULL;
+$disasterTableResult = NULL;
+$reliefCenterMissionTableResult = NULL;
+$reliefCenterDonationTableResult = NULL;
 
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
@@ -60,9 +63,10 @@ handleRequest();
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
 					<?php
-						if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
-							handleDisasterDisplayRequest(); 
-						}
+						// if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
+						// 	handleDisasterDisplayRequest(); 
+						// }
+						echo $disasterTableResult 
 					?>
 				</div>
 			</div>
@@ -114,9 +118,10 @@ handleRequest();
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
 			<?php 
-				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
-					handleReliefCenterMissionDisplayRequest(); 
-				}
+				// if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
+				// 	handleReliefCenterMissionDisplayRequest(); 
+				// }
+				echo $reliefCenterMissionTableResult
 			?>
 		</div>
 
@@ -132,9 +137,11 @@ handleRequest();
 				<h4>(leave input blank to see all relief centers)</h4>
 			</form>
 			<?php 
-				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterDonation'])) {
-					handleReliefCenterDonationDisplayRequest(); 
-				}
+				// if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterDonation'])) {
+				// 	handleReliefCenterDonationDisplayRequest(); 
+				// }
+				echo $reliefCenterDonationTableResult
+				
 			?>
 		</div>
 
