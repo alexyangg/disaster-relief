@@ -122,7 +122,7 @@ handleRequest();
 
 		<hr />
 		
-		<div>
+		<div class="relief_center_donation_container">
 			<form method="GET" action="" id="donationForm">
 				<h2 style="display: inline;">Find Relief Centers with less than</h2>
 				<input type="number" id="donationAmount" name="donationAmount">
@@ -131,6 +131,11 @@ handleRequest();
 				<input type="submit" name="displayReliefCenterDonation" value="Search">
 				<h4>(leave input blank to see all relief centers)</h4>
 			</form>
+			<?php 
+				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterDonation'])) {
+					handleReliefCenterDonationDisplayRequest(); 
+				}
+			?>
 		</div>
 
 		<hr />

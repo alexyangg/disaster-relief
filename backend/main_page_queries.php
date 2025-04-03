@@ -253,7 +253,7 @@ function handleReliefCenterMissionDisplayRequest()
     global $db_conn;
 
     $missionType = strtolower($_GET['missionType']);
-    $query = "SELECT DISTINCT rc.name, rc.location, m.missionType, m.priority
+    $query = "SELECT DISTINCT rc.name, rc.location, m.missionType, m.priority, m.datePosted
               FROM Mission m
               JOIN ReliefCenter rc ON rc.name = m.rcName AND rc.location = m.rcLocation
               WHERE LOWER(m.missionType) LIKE :missionType";
@@ -263,7 +263,7 @@ function handleReliefCenterMissionDisplayRequest()
     oci_bind_by_name($result, ":missionType", $missionType);
     oci_execute($result);
 
-    echo "<table border='1'><tr><th>Relief Center Name</th><th>Relief Center Location</th><th>Mission Type</th><th>Mission Priority</th></tr>";
+    echo "<table border='1'><tr><th>Relief Center Name</th><th>Relief Center Location</th><th>Mission Type</th><th>Mission Priority</th><th>Date Posted</th></tr>";
 
     // echo "<table border='1'><tr><th>Relief Center Name</th><th>Location</th><th>Total Donations</th></tr>";
 
@@ -271,7 +271,8 @@ function handleReliefCenterMissionDisplayRequest()
         echo "<tr><td>" . $row["NAME"] . "</td>";
         echo "<td>" . $row["LOCATION"] . "</td>";
         echo "<td>" . $row["MISSIONTYPE"] . "</td>";
-        echo "<td>" . $row["PRIORITY"] . "</td></tr>";
+        echo "<td>" . $row["PRIORITY"] . "</td>";
+        echo "<td>" . $row["DATEPOSTED"] . "</td></tr>";
     }
 
     echo "</table>";
@@ -311,14 +312,12 @@ function handleRequest()
             handleCountRequest();
         } else if (array_key_exists('displayDisasterTuplesRequest', $_GET)) {
             handleDisasterDisplayRequest();
-            // displayDisasterTuples();
         } else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
         } else if (array_key_exists('displayDisasterReliefProgressRequest', $_GET)) {
             handleDisasterReliefProgressDisplayRequest();
         } else if (array_key_exists('displayReliefCenterDonationRequest', $_GET)) {
             handleReliefCenterDonationDisplayRequest();
-            // displayReliefCenterDonations();
         } else if (array_key_exists('displayReliefCenterMissionRequest', $_GET)) {
             handleReliefCenterMissionDisplayRequest();
         }
