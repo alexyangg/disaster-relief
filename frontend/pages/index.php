@@ -1,11 +1,15 @@
 <?php include "../components/navbar.php"; ?>
+<?php error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include("../../backend/main_page_queries.php");
+?>
 <html>
 <head>
 	<title>Disaster Relief Project</title>
 	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
+	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
 </head>
 <body>
-	<!-- TODO: only shows tuples from Disaster; no inserts or updates yet -->
 	<div class="index_container">
 	
 		<div class="disaster_container" style="display: flex; flex-direction: row;">
@@ -33,11 +37,12 @@
 					<label for=type>Disaster Type:</label>
 					<select id="type" name="type">
 						<option value="">Select a type:</option>
-						<option value="Flood">Flood</option>
 						<option value="Earthquake">Earthquake</option>
-						<option value="Tornado">Tornado</option>
 						<option value="Hurricane">Hurricane</option>
-						<option value="Fire">Fire</option>
+						<option value="Wildfire">Wildfire</option>
+						<option value="Tsunami">Tsunami</option>
+						<option value="Flood">Flood</option>
+						<option value="Tornado">Tornado</option>
 					</select>
 
 					
@@ -49,15 +54,10 @@
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
 					<?php
-					// display results of the disaster query in container
-					// if (isset($_GET['displayDisasterTuples'])) {
-					// 	include("../../backend/main_page_queries.php");
-					// 	handleDisasterDisplayRequest();
-					// }
-					// handleDisasterDisplayRequest();
-					
+						if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
+							handleDisasterDisplayRequest(); 
+						}
 					?>
-					<?php //displayDisasterTuples(); ?>
 				</div>
 			</div>
 		</div>
@@ -95,16 +95,24 @@
 			<input type="number" id="priority" name="priority"><br><br>
 		</form>
 
+		<hr />
 
-		<div>
+		<div class="relief_center_mission_container">
 			<h2>Discover which relief centers are assisting with a given mission (JOIN)</h2>
 			<form method="GET" action="">
-				<h4>Enter a Mission Type:</h4>
+				<h4>Enter a Mission Type (Rescue, Evacuation, Firefighting, Medical Aid, Reconstruction):</h4>
 				<input type="text" id="missionType" name="missionType" required>
 				<input type="hidden" id="displayReliefCenterMissionRequest" name="displayReliefCenterMissionRequest">
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
+			<?php 
+				if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
+					handleReliefCenterMissionDisplayRequest(); 
+				}
+			?>
 		</div>
+
+		<hr />
 		
 		<div>
 			<form method="GET" action="" id="donationForm">
@@ -115,8 +123,9 @@
 				<input type="submit" name="displayReliefCenterDonation" value="Search">
 				<h4>(leave input blank to see all relief centers)</h4>
 			</form>
-		
 		</div>
+
+		<hr />
 		
 		<!-- <a href="contributor.php"> <button type="button"> Contribute </button></a>
 	<div>
@@ -127,7 +136,6 @@
 </body>
 </html>
 <?php
-include("../../backend/main_page_queries.php");
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();

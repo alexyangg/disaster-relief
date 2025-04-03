@@ -22,11 +22,20 @@ function handleDisasterDisplayRequest()
         "type" => "type"
     ];
 
-    // might need to split up the queries because of date etc.
     foreach ($filters as $column => $param) {
         if (!empty($_GET[$param])) {
-            $query .= " AND LOWER($column) LIKE LOWER(:$param)";
-            $params[$param] = "%" . $_GET[$param] . "%";
+            if (in_array($column, ['damageCost', 'casualties', 'severityLevel'])) {
+                // use exact match for numbers
+                $query .= " AND $column = :$param";
+                $params[$param] = $_GET[$param];
+            } elseif ($column == 'disasterDate') {
+                $query .= " AND TO_CHAR($column, 'YYYY-MM-DD') = :$param";
+                $params[$param] = $_GET[$param];
+            } else {
+                // use LIKE for text fields
+                $query .= " AND LOWER($column) LIKE LOWER(:$param)";
+                $params[$param] = "%" . $_GET[$param] . "%";
+            }
         }
     }
 
@@ -34,18 +43,8 @@ function handleDisasterDisplayRequest()
     foreach ($params as $param => $value) {
         oci_bind_by_name($result, ":$param", $params[$param]);
     }
-    echo $query;
 
     oci_execute($result);
-
-    // if (!empty($_GET["disasterName"])) {
-    //     $query .= " AND disasterName LIKE :disasterName";
-    //     $params[":disasterName"] = "%" . $_GET["disasterName"] . "%";
-    // }
-
-    // // $result = executePlainSQL("SELECT * FROM Disaster");
-    // $result = $db_conn->prepare($query);
-    // $result->execute($params);
     printResult($result);
 }
 
@@ -276,16 +275,13 @@ function handleRequest()
         } else if (array_key_exists('countTuples', $_GET)) {
             handleCountRequest();
         } else if (array_key_exists('displayDisasterTuplesRequest', $_GET)) {
-            echo "hit";
             handleDisasterDisplayRequest();
             // displayDisasterTuples();
         } else if (array_key_exists('displayMissionTuples', $_GET)) {
             handleMissionDisplayRequest();
         } else if (array_key_exists('displayDisasterReliefProgressRequest', $_GET)) {
-            echo "hit";
             handleDisasterReliefProgressDisplayRequest();
         } else if (array_key_exists('displayReliefCenterDonationRequest', $_GET)) {
-            echo 'hit';
             handleReliefCenterDonationDisplayRequest();
             // displayReliefCenterDonations();
         } else if (array_key_exists('displayReliefCenterMissionRequest', $_GET)) {
