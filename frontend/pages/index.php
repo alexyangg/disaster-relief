@@ -118,11 +118,11 @@
 		
 		</div>
 		
-		<a href="contributor.php"> <button type="button"> Contribute </button></a>
+		<!-- <a href="contributor.php"> <button type="button"> Contribute </button></a>
 	<div>
 		<h2>Donate to help our cause!</h2>
 		<button onclick="window.location.href='donationPage.php'">Donate Here</button>
-	</div>
+	</div> -->
 </div>
 </body>
 </html>
