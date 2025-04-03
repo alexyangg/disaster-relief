@@ -21,48 +21,39 @@ handleRequest();
 		<?php //handleMissionDisplayRequest() ?>
 	</div>
 	<div class="index_container">
-		<h2>Reset All Disaster Relief Tables</h2>
-		<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
 
-		<form method="POST" action="">
-			<!-- "action" specifies the file or page that will receive the form data for processing. As with this example, it can be this same file. -->
-			<input type="hidden" id="resetTablesRequest" name="resetTablesRequest">
-			<p><input type="submit" value="Reset" name="reset"></p>
-		</form>
-
-		<hr />
 
 		<h2>Compare Missions by (PROJECTION)</h2>
 		<form method="POST" action="">
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="MissionID"> Mission ID
+				<input type="checkbox" name="checkboxes[]" value="MissionID"> Mission ID^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="MissionType"> Mission Type
+				<input type="checkbox" name="checkboxes[]" value="MissionType"> Mission Type^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="DatePosted"> Date Posted
+				<input type="checkbox" name="checkboxes[]" value="DatePosted"> Date Posted^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="HelpNeeded"> Help Needed
+				<input type="checkbox" name="checkboxes[]" value="HelpNeeded"> Help Needed^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="DisasterName"> Disaster Name
+				<input type="checkbox" name="checkboxes[]" value="DisasterName"> Disaster Name^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="DisasterDate"> Disaster Date
+				<input type="checkbox" name="checkboxes[]" value="DisasterDate"> Disaster Date^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="DisasterLocation"> Disaster Location
+				<input type="checkbox" name="checkboxes[]" value="DisasterLocation"> Disaster Location^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="RCName"> Relief Center Name
+				<input type="checkbox" name="checkboxes[]" value="RCName"> Relief Center Name^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="RCLocation"> Relief Center Location
+				<input type="checkbox" name="checkboxes[]" value="RCLocation"> Relief Center Location^
 			</label><br>
 			<label>
-				<input type="checkbox" name="checkboxes[]" value="Priority"> Priority
+				<input type="checkbox" name="checkboxes[]" value="Priority"> Priority^
 			</label><br>
 			<br>
 			<input type="submit" value="Submit">
