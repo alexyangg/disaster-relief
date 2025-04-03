@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 include("db_utils.php");
 
 // TODO: modify the SELECT clause to include user-input params,
@@ -52,11 +51,47 @@ function handleDisasterDisplayRequest()
 // if user hasn't input any params, then select all (*)
 function handleMissionDisplayRequest()
 {
-    // TODO: mission primary key is a the missionId, but user query doesn't
-    // include missionId. How to find the correct missions
-    global $db_conn;
-    $result = executePlainSQL("SELECT * FROM Mission");
-    printResult($result);
+    global $db_conn, $missionTableResult;
+
+    $query = "SELECT * FROM Mission WHERE 1=1";
+    $params = [];
+
+    $filters = [
+        "disasterName" => "disasterName",
+        "disasterDate" => "disasterDate",
+        "disasterLocation" => "disasterLocation",
+        "missionID" => "missionID",
+        "datePosted" => "datePosted",
+        "helpNeeded" => "helpNeeded",
+        "rcName" => "rcName",
+        "rcLocation" => "rcLocation",
+        "priority" => "priority"
+    ];
+
+    foreach ($filters as $column => $param) {
+        if (!empty($_GET[$param])) {
+            if (in_array($column, ['helpNeeded', 'priority', 'missionID'])) {
+                // use exact match for numbers
+                $query .= " AND $column = :$param";
+                $params[$param] = $_GET[$param];
+            } elseif ($column == 'disasterDate') {
+                $query .= " AND TO_CHAR($column, 'YYYY-MM-DD') = :$param";
+                $params[$param] = $_GET[$param];
+            } else {
+                // use LIKE for text fields
+                $query .= " AND LOWER($column) LIKE LOWER(:$param)";
+                $params[$param] = "%" . $_GET[$param] . "%";
+            }
+        }
+    }
+
+    $result = oci_parse($db_conn, $query);
+    foreach ($params as $param => $value) {
+        oci_bind_by_name($result, ":$param", $params[$param]);
+    }
+
+    oci_execute($result);
+    $missionTableResult = getTableString($result);
 }
 
 function printResult($result)

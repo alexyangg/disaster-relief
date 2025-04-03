@@ -1,4 +1,6 @@
 <?php
+include("connection.php");
+
 function debugAlertMessage($message)
 {
     global $show_debug_alert_messages;
@@ -77,7 +79,8 @@ function connectToDB()
 
     // Your username is ora_(CWL_ID) and the password is a(student number). For example,
     // ora_platypus is the username and a12345678 is the password.
-    //$db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
+    // $db_conn = oci_connect("ora_cwl", "a12345678", "dbhost.students.cs.ubc.ca:1522/stu");
+    $db_conn = oci_connect($config["dbuser"], $config["dbpassword"], $config["dbserver"]);
 
     if ($db_conn) {
         debugAlertMessage("Database is Connected");

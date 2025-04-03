@@ -2,6 +2,12 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include("../../backend/main_page_queries.php");
+
+$missionTableResult = NULL;
+
+// runs every time a form is submitted
+// the type of request and form data is stored in global var $_POST 
+handleRequest();
 ?>
 <html>
 <head>
@@ -54,7 +60,7 @@ include("../../backend/main_page_queries.php");
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
 					<?php
-						if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
+						if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
 							handleDisasterDisplayRequest(); 
 						}
 					?>
@@ -67,8 +73,9 @@ include("../../backend/main_page_queries.php");
 		<h2>View Missons</h2>
 		<h4>Display missions associated with a disaster</h4>
 		<form method="GET" action="">
-			<label for="missionName">Mission Name:</label>
-			<input type="text" id="missionName" name="missionName"><br><br>
+			<input id="displayMissionTuples" name="displayMissionTuples" type="hidden">
+			<label for="missionID">Mission ID:</label>
+			<input type="text" id="missionID" name="missionID"><br><br>
 
 			<label for="datePosted">Date Posted:</label>
 			<input type="date" id="datePosted" name="datePosted"><br><br>
@@ -93,20 +100,21 @@ include("../../backend/main_page_queries.php");
 
 			<label for="priority">Priority</label>
 			<input type="number" id="priority" name="priority"><br><br>
+			<input type="submit" name="insertSubmit">
 		</form>
-
+		<?php echo $missionTableResult ?>
 		<hr />
 
 		<div class="relief_center_mission_container">
 			<h2>Discover which relief centers are assisting with a given mission (JOIN)</h2>
 			<form method="GET" action="">
 				<h4>Enter a Mission Type (Rescue, Evacuation, Firefighting, Medical Aid, Reconstruction):</h4>
-				<input type="text" id="missionType" name="missionType" required>
+				<input type="text" id="missionID" name="missionID" required>
 				<input type="hidden" id="displayReliefCenterMissionRequest" name="displayReliefCenterMissionRequest">
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
 			<?php 
-				if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
+				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
 					handleReliefCenterMissionDisplayRequest(); 
 				}
 			?>
@@ -135,8 +143,3 @@ include("../../backend/main_page_queries.php");
 </div>
 </body>
 </html>
-<?php
-// runs every time a form is submitted
-// the type of request and form data is stored in global var $_POST 
-handleRequest();
-?>

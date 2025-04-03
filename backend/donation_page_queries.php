@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 include("db_utils.php");
 
 function handleDonationRequest() {

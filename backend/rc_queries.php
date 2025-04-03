@@ -1,5 +1,4 @@
 <?php
-//include("connection.php");
 include("db_utils.php");
 
 $rc_name = 'Red Cross Center NO';
@@ -48,7 +47,7 @@ function handleDeleteSupplyRequest() {
     global $db_conn;
     global $rc_name, $rc_location;
 
-    if ($_POST['removeAmount']) {
+    if ($_POST['removeAmount'] <= 0) {
         echo "<script>alert('Must remove a positive amount');</script>";
         return;
     }
@@ -94,6 +93,11 @@ function handleUpdateSupplyRequest() {
     $quantity = $_POST['quantity'];
     $quality = $_POST['quality'];
     $expDate = $_POST['expDate'];
+
+    if ($quantity <= 0) {
+        echo "<script>alert('Amount to Send Must Be a Positive Number!');</script>";
+        return;
+    }
 
     $updates = [];
     $bindings = [];
