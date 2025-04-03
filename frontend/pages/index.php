@@ -1,11 +1,14 @@
 <?php include "../components/navbar.php"; ?>
+<?php error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include("../../backend/main_page_queries.php");
+?>
 <html>
 <head>
 	<title>Disaster Relief Project</title>
 	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
 </head>
 <body>
-	<!-- TODO: only shows tuples from Disaster; no inserts or updates yet -->
 	<div class="index_container">
 	
 		<div class="disaster_container" style="display: flex; flex-direction: row;">
@@ -49,16 +52,7 @@
 			<div class="disaster_results_container">
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
-					<?php
-					// display results of the disaster query in container
-					// if (isset($_GET['displayDisasterTuples'])) {
-					// 	include("../../backend/main_page_queries.php");
-					// 	handleDisasterDisplayRequest();
-					// }
-					// handleDisasterDisplayRequest();
-					
-					?>
-					<?php //displayDisasterTuples(); ?>
+					<?php handleDisasterDisplayRequest(); ?>
 				</div>
 			</div>
 		</div>
@@ -128,7 +122,6 @@
 </body>
 </html>
 <?php
-include("../../backend/main_page_queries.php");
 // runs every time a form is submitted
 // the type of request and form data is stored in global var $_POST 
 handleRequest();
