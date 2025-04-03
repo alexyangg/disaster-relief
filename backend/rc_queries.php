@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+//include("connection.php");
 include("db_utils.php");
 
 $rc_name = 'Red Cross Center NO';
@@ -53,7 +53,7 @@ function handleDeleteSupplyRequest() {
         return;
     }
 
-    deleteSupply($_POST['supply'], $_POST['removeAmount'])
+    deleteSupply($_POST['supply'], $_POST['removeAmount']);
 }
 
 function handleCreateMissionRequest() {
