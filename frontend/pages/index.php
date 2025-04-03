@@ -7,6 +7,7 @@ include("../../backend/main_page_queries.php");
 <head>
 	<title>Disaster Relief Project</title>
 	<link rel="stylesheet" href="../styles/global.css" type="text/css"/>
+	<link rel="stylesheet" href="../styles/index.css" type="text/css"/>
 </head>
 <body>
 	<div class="index_container">
@@ -52,7 +53,11 @@ include("../../backend/main_page_queries.php");
 			<div class="disaster_results_container">
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
-					<?php handleDisasterDisplayRequest(); ?>
+					<?php
+						if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
+							handleDisasterDisplayRequest(); 
+						}
+					?>
 				</div>
 			</div>
 		</div>
@@ -90,8 +95,9 @@ include("../../backend/main_page_queries.php");
 			<input type="number" id="priority" name="priority"><br><br>
 		</form>
 
+		<hr />
 
-		<div>
+		<div class="relief_center_mission_container">
 			<h2>Discover which relief centers are assisting with a given mission (JOIN)</h2>
 			<form method="GET" action="">
 				<h4>Enter a Mission Type (Rescue, Evacuation, Firefighting, Medical Aid, Reconstruction):</h4>
@@ -99,7 +105,14 @@ include("../../backend/main_page_queries.php");
 				<input type="hidden" id="displayReliefCenterMissionRequest" name="displayReliefCenterMissionRequest">
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
+			<?php 
+				if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
+					handleReliefCenterMissionDisplayRequest(); 
+				}
+			?>
 		</div>
+
+		<hr />
 		
 		<div>
 			<form method="GET" action="" id="donationForm">
@@ -110,8 +123,9 @@ include("../../backend/main_page_queries.php");
 				<input type="submit" name="displayReliefCenterDonation" value="Search">
 				<h4>(leave input blank to see all relief centers)</h4>
 			</form>
-		
 		</div>
+
+		<hr />
 		
 		<a href="contributor.php"> <button type="button"> Contribute </button></a>
 	<div>
