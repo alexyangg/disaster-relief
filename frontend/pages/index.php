@@ -54,7 +54,7 @@ include("../../backend/main_page_queries.php");
 				<h2>Disaster Results</h2>
 				<div id="disaster_results">
 					<?php
-						if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
+						if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayDisasterTuples'])) {
 							handleDisasterDisplayRequest(); 
 						}
 					?>
@@ -106,7 +106,7 @@ include("../../backend/main_page_queries.php");
 				<input type="submit" name="displayReliefCenterMission" value="Search">
 			</form>
 			<?php 
-				if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
+				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterMission'])) {
 					handleReliefCenterMissionDisplayRequest(); 
 				}
 			?>
@@ -124,7 +124,7 @@ include("../../backend/main_page_queries.php");
 				<h4>(leave input blank to see all relief centers)</h4>
 			</form>
 			<?php 
-				if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterDonation'])) {
+				if (connectToDB() && $_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['displayReliefCenterDonation'])) {
 					handleReliefCenterDonationDisplayRequest(); 
 				}
 			?>
