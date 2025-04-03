@@ -53,7 +53,7 @@ function handleDeleteSupplyRequest() {
         return;
     }
 
-    deleteSupply($_POST['supply'], $_POST['removeAmount'])
+    deleteSupply($_POST['supply'], $_POST['removeAmount']);
 }
 
 function handleCreateMissionRequest() {
