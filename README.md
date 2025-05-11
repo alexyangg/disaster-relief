@@ -1,5 +1,4 @@
-# project_template
-# Please include any additional information that will be useful to your TA in your README! Remember, your goal is to make it easy for your TA to give you points!
+# Disaster Relief App
 
 ## Using public_html 
 On public_html, if any files are unable to load due to permission errors, run command
