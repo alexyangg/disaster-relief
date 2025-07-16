@@ -1,8 +1,6 @@
 # Disaster Relief App
 
-## Using public_html 
-On public_html, if any files are unable to load due to permission errors, run command
-`chmod -R 755 project_e0g8g_g1q1p_q4p5y/` (Would need to be run every time a php file is added/moved)
+A PHP web application developed for UBC's CPSC 304 databases course in collaboration with Gordon Zhou and Andy Xie. This project aims to help coordinate relief efforts during disasters by connecting victims with volunteers and relief centers offering aid. The website is hosted on UBC's undergraduate web servers and uses Oracle SQL for backend data management.
 
 ## Connecting to Oracle DB
 Add a `config.ini` file to project's root directory with the following, changing "cwl" to your own CWL and `dbpassword` to 'a' + your student number.
